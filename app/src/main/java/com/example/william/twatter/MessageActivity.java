@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class MessageActivity extends AppCompatActivity {
 
     EditText editText;
@@ -33,25 +36,25 @@ public class MessageActivity extends AppCompatActivity {
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.getActivity().click(1,1,MessageActivity.this);
+                model.getActivity().click(1, 1, MessageActivity.this);
             }
         });
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.getActivity().click(2,1,MessageActivity.this);
+                model.getActivity().click(2, 1, MessageActivity.this);
             }
         });
         imageView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.getActivity().click(3,1,MessageActivity.this);
+                model.getActivity().click(3, 1, MessageActivity.this);
             }
         });
         imageView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.getActivity().click(4,1,MessageActivity.this);
+                model.getActivity().click(4, 1, MessageActivity.this);
             }
         });
 
@@ -63,19 +66,23 @@ public class MessageActivity extends AppCompatActivity {
         });
 
 
+    }
 
-    }
-    private void sendMessage(){
+    private void sendMessage() {
         String string = String.valueOf(editText.getText());
-        String newString = "";
-        for (char c : string.toCharArray()) {
-            if (Character.isWhitespace(c)) {
-                newString+="%20";
-            }
-            else{
-                newString+=c;
-            }
+        try {
+            string = encode(string);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
-        model.getActivity().sendTweet(newString,MessageActivity.this);
+        Log.d("STRING", string);
+        model.getActivity().sendTweet(string,MessageActivity.this);
     }
+
+    public String encode(String string) throws UnsupportedEncodingException {
+        String encodedString = URLEncoder.encode(string, "UTF-8");
+        System.out.format("'%s'\n", encodedString);
+        return encodedString;
+    }
+
 }
