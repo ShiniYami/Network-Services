@@ -10,10 +10,7 @@
     <RelativeLayout
         android:id="@+id/container1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"><![CDATA[>
-
-        ]]>
+        android:layout_height="match_parent">
 
         <fragment
             android:id="@+id/listfrag"
@@ -21,12 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/border"
-            android:layout_gravity="bottom"
-            tools:layout="@layout/fragment_tweet_list"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true">
+            tools:layout="@layout/fragment_tweet_list">
 
         </fragment>
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
@@ -47,12 +42,12 @@
                 android:id="@+id/descriptionHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 android:layout_alignBaseline="@+id/nameHolder"
                 android:layout_alignBottom="@+id/nameHolder"
-                android:layout_toEndOf="@+id/nameHolder"
                 android:layout_marginStart="33dp"
-                android:textColor="@android:color/white"/>
+                android:layout_toEndOf="@+id/nameHolder"
+                android:text="TextView"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/tagHolder"
@@ -61,26 +56,31 @@
                 android:layout_alignStart="@+id/nameHolder"
                 android:layout_below="@+id/nameHolder"
                 android:text="TextView"
-                android:textSize="10sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/nameHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:text="TextView"
                 android:layout_alignParentTop="true"
+                android:layout_marginTop="17dp"
                 android:layout_toEndOf="@+id/imageView"
-                android:textColor="@android:color/white"/>
+                android:text="TextView"
+                android:textColor="@android:color/white" />
         </RelativeLayout>
+
         <TextView
             android:id="@+id/border"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@android:color/darker_gray"
-            android:layout_below="@+id/relativeLayout"/>
+            android:layout_below="@+id/relativeLayout"
+            android:background="@android:color/darker_gray" />
+
+
     </RelativeLayout>
+
+
 
 
 

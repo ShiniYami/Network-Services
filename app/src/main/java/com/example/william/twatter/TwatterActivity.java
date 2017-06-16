@@ -20,7 +20,7 @@ import com.github.scribejava.core.model.Verb;
 import java.io.IOException;
 
 public class TwatterActivity extends AppCompatActivity implements TweetListFragment.itemClicked {
-TweetDataModel model = TweetDataModel.getInstance();
+    TweetDataModel model = TweetDataModel.getInstance();
     ImageView imageView;
     TextView nameTextView;
     TextView screennameTextView;
@@ -36,7 +36,7 @@ TweetDataModel model = TweetDataModel.getInstance();
         model.setActivity(this);
 
 
-        Log.d("LOG2","Hey");
+        Log.d("LOG2", "Hey");
         imageView = (ImageView) findViewById(R.id.imageView);
         nameTextView = (TextView) findViewById(R.id.nameHolder);
         screennameTextView = (TextView) findViewById(R.id.tagHolder);
@@ -44,43 +44,69 @@ TweetDataModel model = TweetDataModel.getInstance();
         layout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
 
-        final OAuthRequest request = handler.makeRequest(new RequestBuilderHelper("GET","https://api.twitter.com/1.1/statuses/home_timeline.json?count=20"));
-        final OAuthRequest request1 = handler.makeRequest(new RequestBuilderHelper("GET","https://api.twitter.com/1.1/account/settings.json"));
+        final OAuthRequest request1 = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/account/settings.json"));
 
-        handler.signRequest(request);
+
         handler.signRequest(request1);
 
-        handler.sendRequest(request,0);
-        handler.sendRequest(request1,1);
+
+        handler.sendRequest(request1, 1);
 
         String name = model.getMainUser();
-        final OAuthRequest request2 = handler.makeRequest(new RequestBuilderHelper("GET","https://api.twitter.com/1.1/users/show.json?screen_name=%40"+name+"&user_id=%40"+name));
-        handler.signRequest(request2);
-        handler.sendRequest(request2,2);
-
-
+        getInfo(name);
+        getTimeLine(name);
 
 
     }
 
-        @Override
-    public void click(int position) {
-            Intent detailIntent = new Intent(TwatterActivity.this,DetailActivity.class);
-            detailIntent.putExtra("POSITION",position);
-            startActivity(detailIntent);
-    }
-
-    public void setInfo(){
-        String name = model.getMainUser();
-    for (User user : model.getUsers()) {
-        if(user.getScreenName().equals(name)){
-            imageView.setImageBitmap(user.getProfile_image_Bitmap());
-            String screenName = "@"+name;
-            nameTextView.setText(user.getName());
-            screennameTextView.setText(screenName);
-            descriptionTextView.setText(user.getDescription());
-            //layout.setBackgroundColor(Color.parseColor(user.getBackgroundColor()));
+    public void getTimeLine(String name) {
+        OAuthRequest request;
+        if (name.equals(model.getMainUser())) {
+            request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/statuses/home_timeline.json?count=20"));
+        } else {
+            request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/statuses/user_timeline.json?count=20&user_id=%40" + name + "&screen_name=%40" + name + ""));
         }
-    }}
+        handler.signRequest(request);
+        handler.sendRequest(request, 0);
+    }
+
+    @Override
+    public void click(int position) {
+        if (position == 1) {
+            getInfo(model.getMainUser());
+            getTimeLine(model.getMainUser());
+        } else if (position == 2) {
+
+        } else if (position == 3) {
+
+        } else if (position == 4) {
+
+        }
+    }
+
+    public void getInfo(String name) {
+        final OAuthRequest request2 = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/users/show.json?screen_name=%40" + name + "&user_id=%40" + name));
+        handler.signRequest(request2);
+        handler.sendRequest(request2, 2);
+    }
+
+    public void setInfo(String ID) {
+        for (User user : model.getUsers()) {
+            if (user.getID().equals(ID)) {
+                imageView.setImageBitmap(user.getProfile_image_Bitmap());
+                String screenName = "@" + user.getScreenName();
+                nameTextView.setText(user.getName());
+                screennameTextView.setText(screenName);
+                descriptionTextView.setText(user.getDescription());
+                //layout.setBackgroundColor(Color.parseColor(user.getBackgroundColor()));
+            }
+        }
+    }
+
+    public void refreshListView(){
+        TweetListFragment fragment = (TweetListFragment) getFragmentManager().findFragmentById(R.id.listfrag);
+            fragment.refreshListView();
+
+    }
 
 }

@@ -22,7 +22,7 @@
         android:layout_alignStart="@+id/authorName"
         android:layout_marginTop="12dp" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/profile_img"
         android:layout_width="80dp"
         android:layout_height="80dp"

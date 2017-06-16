@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +33,7 @@ public class TweetListAdapter extends ArrayAdapter {
 
     TextView name;
     TextView text;
-    ImageButton profileImageButton;
+    ImageView profileImageView;
     TextView tag;
 
     public TweetListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List objects) {
@@ -43,7 +43,7 @@ public class TweetListAdapter extends ArrayAdapter {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View customView = LayoutInflater.from(getContext()).inflate(R.layout.tweet_list_item, parent, false);
         if (customView == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
@@ -52,28 +52,37 @@ public class TweetListAdapter extends ArrayAdapter {
 
         name = (TextView) customView.findViewById(R.id.authorName);
         text = (TextView) customView.findViewById(R.id.tweetText);
-        profileImageButton = (ImageButton) customView.findViewById(R.id.profile_img);
+        profileImageView = (ImageView) customView.findViewById(R.id.profile_img);
         tag = (TextView) customView.findViewById(R.id.tag_holder);
 
         tweets = model.getTweets();
-        Log.d("TEST1.1.1.1.1",model.getUsers().get(1).getName());
+        Log.d("TEST1.1.1.1.1", model.getUsers().get(1).getName());
         users = model.getUsers();
 
-        Tweet tweet = tweets.get(position);
+        final Tweet tweet = tweets.get(position);
         User user = null;
-        for (User u:users) {
-            if (tweet.getID().equals(u.getID())){
+        for (User u : users) {
+            if (tweet.getID().equals(u.getID())) {
                 user = u;
             }
         }
 
+        final User clickuser = user;
 
-
-        profileImageButton.setImageBitmap(user.getProfile_image_Bitmap());
+        profileImageView.setImageBitmap(user.getProfile_image_Bitmap());
         name.setText(tweet.getAuthorName());
         text.setText(tweet.getText());
-        String tagString = "@"+user.getScreenName();
+        String tagString = "@" + user.getScreenName();
         tag.setText(tagString);
+
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TEST4.4.4", clickuser.getID());
+                model.getActivity().getInfo(clickuser.getScreenName());
+                model.getActivity().getTimeLine(clickuser.getScreenName());
+            }
+        });
 
 
         return customView;

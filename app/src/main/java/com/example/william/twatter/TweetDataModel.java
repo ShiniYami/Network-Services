@@ -5,7 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageView;
 
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
@@ -41,6 +43,7 @@ class TweetDataModel {
     private TwatterActivity activity;
 
 
+
     static TweetDataModel getInstance() {
         return ourInstance;
     }
@@ -69,6 +72,7 @@ class TweetDataModel {
     }
 
     private void choice0(String responseBody) {
+        tweets.clear();
         Log.d("TEST1.1", responseBody);
 
         JSONArray jsonArray = new JSONArray();
@@ -110,8 +114,8 @@ class TweetDataModel {
                 String backgroundColor = "#" + jSONUser.getString("profile_background_color");
 
                 Bitmap bitmap = handler.downloadImage(profilePictureURL);
-                User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor,ID);
-                Tweet newTweet = new Tweet(authorName, text, user,ID);
+                User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor, ID);
+                Tweet newTweet = new Tweet(authorName, text, user, ID);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
@@ -126,6 +130,8 @@ class TweetDataModel {
                 e.printStackTrace();
             }
         }
+
+        activity.refreshListView();
     }
 
     private void choice1(String responseBody) {
@@ -140,11 +146,11 @@ class TweetDataModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 
     private void choice2(String responseBody) {
-        User user = null;
-
+        String ID = "";
         try {
             JSONObject jsonObject = new JSONObject(responseBody);
             String profileImageURL = jsonObject.getString("profile_image_url");
@@ -153,14 +159,28 @@ class TweetDataModel {
             String location = jsonObject.getString("location");
             Bitmap bitMap = handler.downloadImage(profileImageURL);
             String backgroundColor = "#" + jsonObject.getString("profile_background_color");
-            String ID = jsonObject.getString("id");
+            ID = jsonObject.getString("id");
+            int count = 0;
+            for (User u : users) {
+                if (u.getID().equals(ID)) {
+                    count++;
+                    u.setProfile_image_Bitmap(handler.downloadImage(profileImageURL));
+                    u.setName(name);
+                    u.setDescription(description);
+                    u.setLocation(location);
+                }
+            }
+            if (count == 0) {
+                User user = new User(name, location, description, mainUser, bitMap, backgroundColor, ID);
+                users.add(user);
 
-            user = new User(name, location, description, mainUser, bitMap, backgroundColor,ID);
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        users.add(user);
-        activity.setInfo();
+        activity.setInfo(ID);
     }
 
 
