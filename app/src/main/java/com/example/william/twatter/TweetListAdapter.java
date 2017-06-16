@@ -62,7 +62,7 @@ public class TweetListAdapter extends ArrayAdapter {
         final Tweet tweet = tweets.get(position);
         User user = null;
         for (User u : users) {
-            if (tweet.getID().equals(u.getID())) {
+            if (tweet.getUserID().equals(u.getID())) {
                 user = u;
             }
         }
@@ -81,6 +81,13 @@ public class TweetListAdapter extends ArrayAdapter {
                 Log.d("TEST4.4.4", clickuser.getID());
                 model.getActivity().getInfo(clickuser.getScreenName());
                 model.getActivity().getTimeLine(clickuser.getScreenName());
+            }
+        });
+
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.getActivity().startDetailActivity(tweet.getTweetID());
             }
         });
 

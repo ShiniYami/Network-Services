@@ -40,8 +40,8 @@ class TweetDataModel {
     private static TweetDataModel ourInstance = new TweetDataModel();
     OAuthHandler handler = OAuthHandler.getInstance();
     private String mainUser;
+    private String mainUserID;
     private TwatterActivity activity;
-
 
 
     static TweetDataModel getInstance() {
@@ -73,19 +73,26 @@ class TweetDataModel {
 
     private void choice0(String responseBody) {
         tweets.clear();
-        Log.d("TEST1.1", responseBody);
-
         JSONArray jsonArray = new JSONArray();
-
+        Log.d("TEST1.1", responseBody);
         try {
-//            JSONObject jsonobject = new JSONObject(responseBody);
-            jsonArray = new JSONArray(responseBody);
-
-            Log.d("TEST6.3.2", jsonArray.length() + "");
-
+            JSONObject object = new JSONObject(responseBody);
+            jsonArray = object.getJSONArray("statuses");
         } catch (JSONException e) {
 
-            Log.d("TEST6.3.5", e.getMessage());
+
+
+
+            try {
+//            JSONObject jsonobject = new JSONObject(responseBody);
+                jsonArray = new JSONArray(responseBody);
+
+                Log.d("TEST6.3.2", jsonArray.length() + "");
+
+            } catch (JSONException e2) {
+
+                Log.d("TEST6.3.5", e2.getMessage());
+            }
         }
 
 
@@ -110,12 +117,13 @@ class TweetDataModel {
                 if (description.equals("")) {
                     description = "N/A";
                 }
-                String ID = jSONUser.getString("id");
+                String tweetID = tweet.getString("id");
+                String userID = jSONUser.getString("id");
                 String backgroundColor = "#" + jSONUser.getString("profile_background_color");
 
                 Bitmap bitmap = handler.downloadImage(profilePictureURL);
-                User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor, ID);
-                Tweet newTweet = new Tweet(authorName, text, user, ID);
+                User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor, userID);
+                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
@@ -160,6 +168,10 @@ class TweetDataModel {
             Bitmap bitMap = handler.downloadImage(profileImageURL);
             String backgroundColor = "#" + jsonObject.getString("profile_background_color");
             ID = jsonObject.getString("id");
+            String screenName = jsonObject.getString("screen_name");
+            if(screenName.equals(mainUser)){
+                mainUserID = ID;
+            }
             int count = 0;
             for (User u : users) {
                 if (u.getID().equals(ID)) {
@@ -171,7 +183,7 @@ class TweetDataModel {
                 }
             }
             if (count == 0) {
-                User user = new User(name, location, description, mainUser, bitMap, backgroundColor, ID);
+                User user = new User(name, location, description, screenName, bitMap, backgroundColor, ID);
                 users.add(user);
 
             }
@@ -190,6 +202,10 @@ class TweetDataModel {
 
     public String getMainUser() {
         return mainUser;
+    }
+
+    public String getMainUserID() {
+        return mainUserID;
     }
 
     public void setActivity(TwatterActivity activity) {

@@ -19,22 +19,26 @@ public class Tweet {
     private User user;
     private String authorName = "Unknown";
     private String text = "Empty";
-    private String ID;
+    private String userID;
+    private String tweetID;
 
-    public Tweet(String author,String text, User user, String ID) {
+    public Tweet(String author,String text, User user, String userID, String tweetID) {
         this.authorName = author;
         this.text = text+"\n";
         this.user = user;
-        this.ID = ID;
+        this.userID = userID;
+        this.tweetID = tweetID;
     }
 
 
-    public void setAuthorName(String name) {
-        authorName = name;
-    }
+
     public User getUser(){return user;}
 
-    public String getID() {
-        return ID;
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getTweetID() {
+        return tweetID;
     }
 }

@@ -1,18 +1,27 @@
 package com.example.william.twatter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -20,6 +29,8 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class TwatterActivity extends AppCompatActivity implements TweetListFragment.itemClicked {
     TweetDataModel model = TweetDataModel.getInstance();
@@ -27,14 +38,26 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     TextView nameTextView;
     TextView screennameTextView;
     TextView descriptionTextView;
+    EditText editTextSearch;
+    Button searchButton;
+    PopupWindow pw;
     RelativeLayout layout;
+
+
     OAuthHandler handler = OAuthHandler.getInstance();
+
+    private int deviceHeight;
+    private int deviceWidth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twatter);
-
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        deviceHeight = displayMetrics.heightPixels;
+        deviceWidth = displayMetrics.widthPixels;
         model.setActivity(this);
 
 
@@ -73,8 +96,8 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     }
 
     @Override
-    public void click(int position, int kind,Activity activity) {
-        if(kind == 1){
+    public void click(int position, int kind, Activity activity) {
+        if (kind == 1) {
             activity.finish();
         }
 
@@ -85,7 +108,22 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
             Intent intent = new Intent(TwatterActivity.this, MessageActivity.class);
             startActivity(intent);
         } else if (position == 3) {
+            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+            pw = new PopupWindow(inflater.inflate(R.layout.popup_search, null, false), deviceWidth, deviceHeight, true);
+
+            View pwContentView = pw.getContentView();
+
+            editTextSearch = (EditText) pwContentView.findViewById(R.id.editTextSearch);
+            searchButton = (Button) pwContentView.findViewById(R.id.bttn_search);
+
+            searchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    search();
+                }
+            });
+            pw.showAtLocation(this.findViewById(R.id.listfrag), Gravity.CENTER, 0, 0);
         } else if (position == 4) {
 
         }
@@ -116,12 +154,39 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
 
     }
 
+    public void search() {
+        String search = editTextSearch.getText().toString();
+        pw.dismiss();
+        try {
+            search = encode(search);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        setInfo(model.getMainUserID());
+        final OAuthRequest request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/search/tweets.json?q=" + search));
+        handler.signRequest(request);
+        handler.sendRequest(request, 0);
+    }
+
     public void sendTweet(String message, Activity activity) {
         activity.finish();
         final OAuthRequest request3 = handler.makeRequest(new RequestBuilderHelper("POST", "https://api.twitter.com/1.1/statuses/update.json?status=" + message + "&display_coordinates=false"));
         handler.signRequest(request3);
         handler.sendRequest(request3, 3);
         refreshListView();
+    }
+
+    public String encode(String string) throws UnsupportedEncodingException {
+        String encodedString = URLEncoder.encode(string, "UTF-8");
+        System.out.format("'%s'\n", encodedString);
+        return encodedString;
+    }
+
+    public void startDetailActivity(String tweetID){
+        Intent intent = new Intent(TwatterActivity.this, DetailActivity.class);
+        intent.putExtra("TWEETID",tweetID);
+        startActivity(intent);
     }
 
 }
