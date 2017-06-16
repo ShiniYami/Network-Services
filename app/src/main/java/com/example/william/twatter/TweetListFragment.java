@@ -21,9 +21,15 @@ import java.util.ArrayList;
  */
 
 public class TweetListFragment extends Fragment {
+
     TweetDataModel model = TweetDataModel.getInstance();
     OAuthHandler handler = OAuthHandler.getInstance();
-    ArrayList<Tweet> tweets = model.getTweets();
+
+    ListView lv ;
+    TweetListAdapter adapt;
+
+    ArrayList<Tweet>tweets;
+
     public interface itemClicked{
         public void click(int position);
     }
@@ -42,9 +48,10 @@ public class TweetListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tweet_list,container);//false means it won't be attatched to the rootView by itssellf, because android will already do that for me
-        ListView lv = (ListView) rootView.findViewById(R.id.tweetList);
-        TweetListAdapter adapt = new TweetListAdapter(getActivity(),R.layout.tweet_list_item,tweets);
+        View rootView = inflater.inflate(R.layout.fragment_tweet_list,container);//false means it won't be attached to the rootView by itself, because android will already do that for me
+        lv = (ListView) rootView.findViewById(R.id.tweetList);
+        tweets = model.getTweets();
+        adapt = new TweetListAdapter(getActivity(),R.layout.tweet_list_item,tweets);
         lv.setAdapter(adapt);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -53,6 +60,10 @@ public class TweetListFragment extends Fragment {
 
             }
         });
+
         return rootView;
     }
+
+
+
 }

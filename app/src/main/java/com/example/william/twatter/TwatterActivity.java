@@ -67,10 +67,10 @@ TweetDataModel model = TweetDataModel.getInstance();
     }
 
     public void setInfo(){
-    String name = model.getMainUser();
+        String name = model.getMainUser();
     for (User user : model.getUsers()) {
         if(user.getScreenName().equals(name)){
-            handler.downloadImage(user.getProfile_image_url());
+            imageView.setImageBitmap(user.getProfile_image_Bitmap());
             nameTextView.setText(user.getName());
             screennameTextView.setText(name);
             descriptionTextView.setText(user.getDescription());

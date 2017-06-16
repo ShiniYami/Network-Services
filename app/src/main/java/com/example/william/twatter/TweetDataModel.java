@@ -2,6 +2,8 @@ package com.example.william.twatter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -33,9 +35,11 @@ class TweetDataModel {
 
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Tweet> tweets = new ArrayList<>();
-    private static final TweetDataModel ourInstance = new TweetDataModel();
+    private static TweetDataModel ourInstance = new TweetDataModel();
+    OAuthHandler handler = OAuthHandler.getInstance();
     private String mainUser;
     private TwatterActivity activity;
+
 
     static TweetDataModel getInstance() {
         return ourInstance;
@@ -52,6 +56,7 @@ class TweetDataModel {
 
 
     public void loadResponse(String responseBody, int choice) {
+        Log.d("TEST311","hi");
         if (choice == 0) {
             choice0(responseBody);
         }
@@ -83,16 +88,17 @@ class TweetDataModel {
         int x = jsonArray.length();
         Log.d("TEST5", x + "");
         for (int tweetCount = 0; tweetCount < x; tweetCount++) {
-            JSONObject tweet = null;
             Log.d("TEST1", "HI");
             try {
-                tweet = jsonArray.getJSONObject(tweetCount);
+                JSONObject tweet = jsonArray.getJSONObject(tweetCount);
                 Log.d("TEST2", "HI");
                 String text = tweet.getString("text");
                 JSONObject jSONUser = tweet.getJSONObject("user");
                 Log.d("TEST3", "HI");
                 String authorName = jSONUser.getString("name");
                 String authorLocation = jSONUser.getString("location");
+                String profilePictureURL = jSONUser.getString("profile_image_url");
+                String screenName = jSONUser.getString("screen_name");
                 if (authorLocation.equals("")) {
                     authorLocation = "N/A";
                 }
@@ -100,13 +106,15 @@ class TweetDataModel {
                 if (description.equals("")) {
                     description = "N/A";
                 }
-                User user = new User(authorName, authorLocation, description,"N/A");
+
+                Bitmap bitmap = handler.downloadImage(profilePictureURL);
+                User user = new User(authorName, authorLocation, description,screenName,bitmap);
                 Tweet newTweet = new Tweet(authorName, text, user);
                 tweets.add(newTweet);
+                users.add(user);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -133,8 +141,8 @@ class TweetDataModel {
             String name = jsonObject.getString("name");
             String description = jsonObject.getString("description");
             String location = jsonObject.getString("location");
-            user = new User(name,location,description, mainUser);
-            user.setProfile_image_url(profileImageURL);
+            Bitmap bitMap = handler.downloadImage(profileImageURL);
+            user = new User(name,location,description, mainUser,bitMap);
         } catch (JSONException e) {
             e.printStackTrace();
         }

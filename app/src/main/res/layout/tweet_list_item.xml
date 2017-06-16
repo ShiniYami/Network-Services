@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,19 +8,32 @@
         android:id="@+id/authorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:text="authorName"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:text="authorName" />
+        android:layout_toEndOf="@+id/profile_img" />
 
     <TextView
         android:id="@+id/tweetText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="tweetText"
+        android:layout_below="@+id/tag_holder"
+        android:layout_toEndOf="@+id/tag_holder"
+        android:layout_marginTop="20dp" />
+
+    <ImageButton
+        android:id="@+id/profile_img"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignBottom="@+id/tweetText"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tag_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignStart="@+id/authorName"
         android:layout_below="@+id/authorName"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="22dp"
-        android:text="tweetText" />
+        android:text="tagHolder" />
 </RelativeLayout>

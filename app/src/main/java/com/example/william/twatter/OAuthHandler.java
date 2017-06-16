@@ -33,9 +33,7 @@ public class OAuthHandler {
 
     private SharedPreferences keySets;
     Activity activity;
-    public String userVerifier = "";
-    public boolean beenVerified = false;
-    public String oathVerifier;
+
     TweetDataModel model = TweetDataModel.getInstance();
 
 
@@ -45,7 +43,7 @@ public class OAuthHandler {
 
     public OAuth1AccessToken accessTokenFinal;
 
-    static OAuthHandler getInstance() {
+    public static OAuthHandler getInstance() {
         return ourInstance;
     }
 
@@ -173,10 +171,10 @@ public class OAuthHandler {
         protected String doInBackground(OAuthRequest... params) {
             Response response;
             response = params[0].send();
-
             String body = null;
             try {
                 body = response.getBody();
+
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -192,13 +190,19 @@ public class OAuthHandler {
 
     public void sendRequest(OAuthRequest request, int choice) {
         String body = null;
+        Log.d("TEST111","hi");
         try {
+
             body = new RequestSender().execute(request).get();
+            Log.d("TEST211","hi");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        Log.d("TEST111",body);
+        Log.d("TEST111",choice+"");
+        model = TweetDataModel.getInstance();
         model.loadResponse(body, choice);
     }
 
@@ -210,12 +214,6 @@ public class OAuthHandler {
             e.printStackTrace();
         }
         return requestToken;
-    }
-
-
-    public void setAccessToken(OAuth1AccessToken accessToken) {
-        accessTokenFinal = accessToken;
-        this.accessToken = accessTokenFinal;
     }
 
     public void setActivity(Activity activity) {
@@ -246,27 +244,18 @@ public class OAuthHandler {
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
 
         protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
+            String urlDisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
+                InputStream in = new java.net.URL(urlDisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
             return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
         }
     }
 
@@ -281,8 +270,16 @@ public class OAuthHandler {
         return null;
     }
 
-    public void downloadImage(String url){
-        new DownloadImageTask(model.getActivity().imageView).execute(url);
+    public Bitmap downloadImage(String url){
+        Bitmap bitmap = null;
+        try {
+            bitmap = new DownloadImageTask().execute(url).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
 }

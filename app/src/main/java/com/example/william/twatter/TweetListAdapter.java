@@ -4,13 +4,17 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.william.twatter.TwitterInfo.Tweet;
+import com.example.william.twatter.TwitterInfo.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +24,18 @@ import java.util.List;
  */
 
 public class TweetListAdapter extends ArrayAdapter {
+
     TweetDataModel model = TweetDataModel.getInstance();
-    ArrayList<Tweet> tweets ;
+    OAuthHandler handler = OAuthHandler.getInstance();
+
+    ArrayList<Tweet> tweets;
+    ArrayList<User> users;
+
+    TextView name;
+    TextView text;
+    ImageButton profileImageButton;
+    TextView tag;
+
     public TweetListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List objects) {
         super(context, resource, objects);
 
@@ -36,14 +50,27 @@ public class TweetListAdapter extends ArrayAdapter {
             customView = vi.inflate(R.layout.tweet_list_item, null);
         }
 
+        name = (TextView) customView.findViewById(R.id.authorName);
+        text = (TextView) customView.findViewById(R.id.tweetText);
+        profileImageButton = (ImageButton) customView.findViewById(R.id.profile_img);
+        tag = (TextView) customView.findViewById(R.id.tag_holder);
+
         tweets = model.getTweets();
-        int k = tweets.size();
-        TextView name = (TextView) customView.findViewById(R.id.authorName);
-        TextView text = (TextView) customView.findViewById(R.id.tweetText);
+        Log.d("TEST1.1.1.1.1",model.getUsers().get(1).getName());
+        users = model.getUsers();
+
         Tweet tweet = tweets.get(position);
+        User user = users.get(position);
+
+
+        profileImageButton.setImageBitmap(user.getProfile_image_Bitmap());
         name.setText(tweet.getAuthorName());
         text.setText(tweet.getText());
+        tag.setText(user.getScreenName());
+
 
         return customView;
     }
+
+
 }
