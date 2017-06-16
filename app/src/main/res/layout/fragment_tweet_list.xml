@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
-            app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+            app:srcCompat="@android:drawable/ic_menu_edit" />
 
         <ImageView
             android:id="@+id/ImageView3"

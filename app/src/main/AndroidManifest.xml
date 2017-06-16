@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity" />
-        <activity android:name=".TwatterActivity"></activity>
+        <activity android:name=".TwatterActivity" />
+        <activity android:name=".MessageActivity"></activity>
     </application>
 
 </manifest>

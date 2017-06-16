@@ -37,7 +37,7 @@ public class TweetListFragment extends Fragment {
     ArrayList<Tweet> tweets;
 
     public interface itemClicked {
-        public void click(int position);
+        public void click(int position, int kind, Activity activity);
     }
 
     itemClicked listener;
@@ -71,25 +71,25 @@ public class TweetListFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.click(1);
+                listener.click(1,0, getActivity());
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.click(2);
+                listener.click(2,0,getActivity());
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.click(3);
+                listener.click(3,0,getActivity());
             }
         });
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.click(4);
+                listener.click(4,0,getActivity());
             }
         });
 

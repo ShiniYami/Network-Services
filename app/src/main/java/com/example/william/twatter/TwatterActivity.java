@@ -1,8 +1,10 @@
 package com.example.william.twatter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,12 +73,17 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     }
 
     @Override
-    public void click(int position) {
+    public void click(int position, int kind,Activity activity) {
+        if(kind == 1){
+            activity.finish();
+        }
+
         if (position == 1) {
             getInfo(model.getMainUser());
             getTimeLine(model.getMainUser());
         } else if (position == 2) {
-
+            Intent intent = new Intent(TwatterActivity.this, MessageActivity.class);
+            startActivity(intent);
         } else if (position == 3) {
 
         } else if (position == 4) {
@@ -103,10 +110,17 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         }
     }
 
-    public void refreshListView(){
+    public void refreshListView() {
         TweetListFragment fragment = (TweetListFragment) getFragmentManager().findFragmentById(R.id.listfrag);
-            fragment.refreshListView();
+        fragment.refreshListView();
 
+    }
+
+    public void sendTweet(String message, Activity activity) {
+        activity.finish();
+        final OAuthRequest request3 = handler.makeRequest(new RequestBuilderHelper("POST", "https://api.twitter.com/1.1/statuses/update.json?status=" + message + "&display_coordinates=false"));
+        handler.signRequest(request3);
+        handler.sendRequest(request3, 3);
     }
 
 }
