@@ -19,10 +19,13 @@ public class Tweet {
     private User user;
     private String authorName = "Unknown";
     private String text = "Empty";
-    public Tweet(String author,String text, User user) {
+    private String ID;
+
+    public Tweet(String author,String text, User user, String ID) {
         this.authorName = author;
-        this.text = text;
+        this.text = text+"\n";
         this.user = user;
+        this.ID = ID;
     }
 
 
@@ -30,4 +33,8 @@ public class Tweet {
         authorName = name;
     }
     public User getUser(){return user;}
+
+    public String getID() {
+        return ID;
+    }
 }

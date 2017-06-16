@@ -10,22 +10,22 @@
         android:layout_height="wrap_content"
         android:text="authorName"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/profile_img" />
+        android:layout_toEndOf="@+id/profile_img"
+        android:layout_marginStart="18dp" />
 
     <TextView
         android:id="@+id/tweetText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="tweetText"
-        android:layout_below="@+id/tag_holder"
-        android:layout_toEndOf="@+id/tag_holder"
-        android:layout_marginTop="20dp" />
+        android:layout_below="@+id/authorName"
+        android:layout_alignStart="@+id/authorName"
+        android:layout_marginTop="12dp" />
 
     <ImageButton
         android:id="@+id/profile_img"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_alignBottom="@+id/tweetText"
         android:layout_alignParentStart="true"
         app:srcCompat="@mipmap/ic_launcher" />
 
@@ -33,7 +33,9 @@
         android:id="@+id/tag_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/authorName"
-        android:layout_below="@+id/authorName"
-        android:text="tagHolder" />
+        android:layout_alignBottom="@+id/authorName"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/authorName"
+        android:text="tagHolder"
+        android:textSize="10sp" />
 </RelativeLayout>

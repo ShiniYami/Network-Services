@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.example.william.twatter.OAuthHandler;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  * Created by William on 5/9/2017.
@@ -21,13 +22,17 @@ public class User {
     private String description;
     private Bitmap profile_image_Bitmap;
     private String screenName;
+    private String backgroundColor;
+    private String ID;
 
-    public User(String name,String location,String description, String screenName, Bitmap profile_image_Bitmap){
+    public User(String name, String location, String description, String screenName, Bitmap profile_image_Bitmap, String backgroundColor, String ID){
         this.name = name;
         this.location = location;
         this.description = description;
         this.screenName = screenName;
         this.profile_image_Bitmap = profile_image_Bitmap;
+        this.backgroundColor = backgroundColor;
+        this.ID = ID;
     }
     public String getName() {
         return name;
@@ -55,5 +60,13 @@ public class User {
 
     public String getScreenName() {
         return screenName;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

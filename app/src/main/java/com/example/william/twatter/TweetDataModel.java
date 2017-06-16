@@ -56,7 +56,7 @@ class TweetDataModel {
 
 
     public void loadResponse(String responseBody, int choice) {
-        Log.d("TEST311","hi");
+        Log.d("TEST311", "hi");
         if (choice == 0) {
             choice0(responseBody);
         }
@@ -106,12 +106,22 @@ class TweetDataModel {
                 if (description.equals("")) {
                     description = "N/A";
                 }
+                String ID = jSONUser.getString("id");
+                String backgroundColor = "#" + jSONUser.getString("profile_background_color");
 
                 Bitmap bitmap = handler.downloadImage(profilePictureURL);
-                User user = new User(authorName, authorLocation, description,screenName,bitmap);
-                Tweet newTweet = new Tweet(authorName, text, user);
+                User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor,ID);
+                Tweet newTweet = new Tweet(authorName, text, user,ID);
                 tweets.add(newTweet);
-                users.add(user);
+                int count = 0;
+                for (User u : users) {
+                    if (user.getScreenName().equals(u.getScreenName())) {
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    users.add(user);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -142,7 +152,10 @@ class TweetDataModel {
             String description = jsonObject.getString("description");
             String location = jsonObject.getString("location");
             Bitmap bitMap = handler.downloadImage(profileImageURL);
-            user = new User(name,location,description, mainUser,bitMap);
+            String backgroundColor = "#" + jsonObject.getString("profile_background_color");
+            String ID = jsonObject.getString("id");
+
+            user = new User(name, location, description, mainUser, bitMap, backgroundColor,ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,6 +175,7 @@ class TweetDataModel {
     public void setActivity(TwatterActivity activity) {
         this.activity = activity;
     }
+
 
     public TwatterActivity getActivity() {
         return activity;

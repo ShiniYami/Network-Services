@@ -60,13 +60,20 @@ public class TweetListAdapter extends ArrayAdapter {
         users = model.getUsers();
 
         Tweet tweet = tweets.get(position);
-        User user = users.get(position);
+        User user = null;
+        for (User u:users) {
+            if (tweet.getID().equals(u.getID())){
+                user = u;
+            }
+        }
+
 
 
         profileImageButton.setImageBitmap(user.getProfile_image_Bitmap());
         name.setText(tweet.getAuthorName());
         text.setText(tweet.getText());
-        tag.setText(user.getScreenName());
+        String tagString = "@"+user.getScreenName();
+        tag.setText(tagString);
 
 
         return customView;

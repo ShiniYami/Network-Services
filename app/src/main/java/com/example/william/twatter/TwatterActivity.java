@@ -1,12 +1,14 @@
 package com.example.william.twatter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.william.twatter.TwitterInfo.User;
@@ -23,6 +25,7 @@ TweetDataModel model = TweetDataModel.getInstance();
     TextView nameTextView;
     TextView screennameTextView;
     TextView descriptionTextView;
+    RelativeLayout layout;
     OAuthHandler handler = OAuthHandler.getInstance();
 
     @Override
@@ -38,6 +41,7 @@ TweetDataModel model = TweetDataModel.getInstance();
         nameTextView = (TextView) findViewById(R.id.nameHolder);
         screennameTextView = (TextView) findViewById(R.id.tagHolder);
         descriptionTextView = (TextView) findViewById(R.id.descriptionHolder);
+        layout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
 
         final OAuthRequest request = handler.makeRequest(new RequestBuilderHelper("GET","https://api.twitter.com/1.1/statuses/home_timeline.json?count=20"));
@@ -71,9 +75,12 @@ TweetDataModel model = TweetDataModel.getInstance();
     for (User user : model.getUsers()) {
         if(user.getScreenName().equals(name)){
             imageView.setImageBitmap(user.getProfile_image_Bitmap());
+            String screenName = "@"+name;
             nameTextView.setText(user.getName());
-            screennameTextView.setText(name);
+            screennameTextView.setText(screenName);
             descriptionTextView.setText(user.getDescription());
+            //layout.setBackgroundColor(Color.parseColor(user.getBackgroundColor()));
         }
     }}
+
 }
