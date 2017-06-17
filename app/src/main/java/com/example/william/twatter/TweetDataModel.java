@@ -109,6 +109,15 @@ class TweetDataModel {
                 Log.d("TEST2", "HI");
                 String text = tweet.getString("text");
                 JSONObject jSONUser = tweet.getJSONObject("user");
+                String url = "none";
+                try {
+                    JSONObject entities = tweet.getJSONObject("entities");
+                    JSONArray urls = entities.getJSONArray("urls");
+                    url = urls.getJSONObject(0).getString("url");
+                } catch (Exception e) {
+                   e.printStackTrace();
+                }
+
                 Log.d("TEST3", "HI");
                 String authorName = jSONUser.getString("name");
                 String authorLocation = jSONUser.getString("location");
@@ -155,7 +164,7 @@ class TweetDataModel {
 
                 Bitmap bitmap = handler.downloadImage(profilePictureURL);
                 User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor, userID);
-                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost);
+                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost,url);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
