@@ -35,6 +35,7 @@ public class TweetListAdapter extends ArrayAdapter {
     TextView text;
     ImageView profileImageView;
     TextView tag;
+    TextView time;
 
     public TweetListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List objects) {
         super(context, resource, objects);
@@ -54,20 +55,16 @@ public class TweetListAdapter extends ArrayAdapter {
         text = (TextView) customView.findViewById(R.id.tweetText);
         profileImageView = (ImageView) customView.findViewById(R.id.profile_img);
         tag = (TextView) customView.findViewById(R.id.tag_holder);
+        time = (TextView) customView.findViewById(R.id.time_holder);
 
         tweets = model.getTweets();
         Log.d("TEST1.1.1.1.1", model.getUsers().get(1).getName());
         users = model.getUsers();
 
         final Tweet tweet = tweets.get(position);
-        User user = null;
-        for (User u : users) {
-            if (tweet.getUserID().equals(u.getID())) {
-                user = u;
-            }
-        }
+        final User user = tweet.getUser();
 
-        final User clickuser = user;
+
 
         profileImageView.setImageBitmap(user.getProfile_image_Bitmap());
         name.setText(tweet.getAuthorName());
@@ -75,12 +72,16 @@ public class TweetListAdapter extends ArrayAdapter {
         String tagString = "@" + user.getScreenName();
         tag.setText(tagString);
 
+
+
+        time.setText(tweet.getTimeOfPost());
+
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TEST4.4.4", clickuser.getID());
-                model.getActivity().getInfo(clickuser.getScreenName());
-                model.getActivity().getTimeLine(clickuser.getScreenName());
+                Log.d("TEST4.4.4", user.getID());
+                model.getActivity().getInfo(user.getScreenName());
+                model.getActivity().getTimeLine(user.getScreenName());
             }
         });
 

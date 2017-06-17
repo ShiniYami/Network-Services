@@ -21,13 +21,15 @@ public class Tweet {
     private String text = "Empty";
     private String userID;
     private String tweetID;
+    private String timeOfPost;
 
-    public Tweet(String author,String text, User user, String userID, String tweetID) {
+    public Tweet(String author,String text, User user, String userID, String tweetID, String timeOfPost) {
         this.authorName = author;
         this.text = text+"\n";
         this.user = user;
         this.userID = userID;
         this.tweetID = tweetID;
+        this.timeOfPost = timeOfPost;
     }
 
 
@@ -40,5 +42,9 @@ public class Tweet {
 
     public String getTweetID() {
         return tweetID;
+    }
+
+    public String getTimeOfPost() {
+        return timeOfPost;
     }
 }

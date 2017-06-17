@@ -171,6 +171,11 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
 
     public void sendTweet(String message, Activity activity) {
         activity.finish();
+        try {
+            message = encode(message);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         final OAuthRequest request3 = handler.makeRequest(new RequestBuilderHelper("POST", "https://api.twitter.com/1.1/statuses/update.json?status=" + message + "&display_coordinates=false"));
         handler.signRequest(request3);
         handler.sendRequest(request3, 3);

@@ -26,8 +26,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
+
+import static android.R.attr.format;
 
 /**
  * Created by William on 5/9/2017.
@@ -110,6 +116,8 @@ class TweetDataModel {
                 String authorLocation = jSONUser.getString("location");
                 String profilePictureURL = jSONUser.getString("profile_image_url");
                 String screenName = jSONUser.getString("screen_name");
+                String timeOfPost = tweet.getString("created_at");
+                timeOfPost = timeOfPost.replace("+0000" ,"");
                 if (authorLocation.equals("")) {
                     authorLocation = "N/A";
                 }
@@ -123,7 +131,7 @@ class TweetDataModel {
 
                 Bitmap bitmap = handler.downloadImage(profilePictureURL);
                 User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor, userID);
-                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID);
+                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
@@ -211,6 +219,7 @@ class TweetDataModel {
     public void setActivity(TwatterActivity activity) {
         this.activity = activity;
     }
+
 
 
     public TwatterActivity getActivity() {

@@ -38,4 +38,14 @@
         android:layout_toEndOf="@+id/authorName"
         android:text="tagHolder"
         android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/time_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tag_holder"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tag_holder"
+        android:text="timeHolder"
+        android:textSize="10sp" />
 </RelativeLayout>

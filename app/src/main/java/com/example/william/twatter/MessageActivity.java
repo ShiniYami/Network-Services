@@ -70,19 +70,9 @@ public class MessageActivity extends AppCompatActivity {
 
     private void sendMessage() {
         String string = String.valueOf(editText.getText());
-        try {
-            string = encode(string);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        Log.d("STRING", string);
         model.getActivity().sendTweet(string,MessageActivity.this);
     }
 
-    public String encode(String string) throws UnsupportedEncodingException {
-        String encodedString = URLEncoder.encode(string, "UTF-8");
-        System.out.format("'%s'\n", encodedString);
-        return encodedString;
-    }
+
 
 }
