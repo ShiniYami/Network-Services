@@ -87,8 +87,6 @@ class TweetDataModel {
         } catch (JSONException e) {
 
 
-
-
             try {
 //            JSONObject jsonobject = new JSONObject(responseBody);
                 jsonArray = new JSONArray(responseBody);
@@ -117,7 +115,33 @@ class TweetDataModel {
                 String profilePictureURL = jSONUser.getString("profile_image_url");
                 String screenName = jSONUser.getString("screen_name");
                 String timeOfPost = tweet.getString("created_at");
-                timeOfPost = timeOfPost.replace("+0000" ,"");
+                timeOfPost = timeOfPost.replace("+0000", "");
+                String[] split = timeOfPost.split(" ");
+                String[] split2 = split[3].split(":");
+                int hour = Integer.parseInt(split2[0]);
+                hour += 2;
+                if (hour > 23) {
+                    hour = hour - 24;
+                }
+                split2[0] = String.valueOf(hour);
+                String sum = "";
+                for (int i = 0; i < split2.length; i++) {
+                    if (i + 1 == split2.length) {
+                        sum += split2[i];
+                    } else {
+                        sum += split2[i] + ":";
+                    }
+                }
+                split[3] = sum;
+                String sum2 = "";
+                for (int i = 0; i < split.length; i++) {
+                    if (i - 1 == split.length) {
+                        sum2 += split[i];
+                    } else {
+                        sum2 += split[i] + " ";
+                    }
+                }
+                timeOfPost = sum2;
                 if (authorLocation.equals("")) {
                     authorLocation = "N/A";
                 }
@@ -177,7 +201,7 @@ class TweetDataModel {
             String backgroundColor = "#" + jsonObject.getString("profile_background_color");
             ID = jsonObject.getString("id");
             String screenName = jsonObject.getString("screen_name");
-            if(screenName.equals(mainUser)){
+            if (screenName.equals(mainUser)) {
                 mainUserID = ID;
             }
             int count = 0;
@@ -219,7 +243,6 @@ class TweetDataModel {
     public void setActivity(TwatterActivity activity) {
         this.activity = activity;
     }
-
 
 
     public TwatterActivity getActivity() {
