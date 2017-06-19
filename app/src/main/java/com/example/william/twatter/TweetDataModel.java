@@ -269,6 +269,7 @@ class TweetDataModel {
 
                 String ID = object.getString("id");
                 String profileImageURL = object.getString("profile_image_url");
+                profileImageURL = profileImageURL.replace("_normal", "");
                 String name = object.getString("name");
                 String description = object.getString("description");
                 String location = object.getString("location");
