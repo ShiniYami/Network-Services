@@ -22,23 +22,22 @@ public class Tweet {
     private String userID;
     private String tweetID;
     private String timeOfPost;
+    private String url;
 
-    public Tweet(String author,String text, User user, String userID, String tweetID, String timeOfPost) {
+    public Tweet(String author,String text, User user, String userID, String tweetID, String timeOfPost, String url) {
         this.authorName = author;
         this.text = text+"\n";
         this.user = user;
         this.userID = userID;
         this.tweetID = tweetID;
         this.timeOfPost = timeOfPost;
+        this.url = url;
     }
 
 
 
     public User getUser(){return user;}
 
-    public String getUserID() {
-        return userID;
-    }
 
     public String getTweetID() {
         return tweetID;
@@ -46,5 +45,9 @@ public class Tweet {
 
     public String getTimeOfPost() {
         return timeOfPost;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

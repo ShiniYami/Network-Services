@@ -20,17 +20,17 @@ public class User {
     private String location;
     private int age;
     private String description;
-    private Bitmap profile_image_Bitmap;
+    private String url;
     private String screenName;
     private String backgroundColor;
     private String ID;
 
-    public User(String name, String location, String description, String screenName, Bitmap profile_image_Bitmap, String backgroundColor, String ID){
+    public User(String name, String location, String description, String screenName, String url, String backgroundColor, String ID){
         this.name = name;
         this.location = location;
         this.description = description;
         this.screenName = screenName;
-        this.profile_image_Bitmap = profile_image_Bitmap;
+        this.url = url;
         this.backgroundColor = backgroundColor;
         this.ID = ID;
     }
@@ -50,12 +50,12 @@ public class User {
         return description;
     }
 
-    public Bitmap getProfile_image_Bitmap() {
-        return profile_image_Bitmap;
+    public String getUrl() {
+        return url;
     }
 
-    public void setProfile_image_Bitmap(Bitmap profile_image_Bitmap) {
-        this.profile_image_Bitmap = profile_image_Bitmap;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getScreenName() {

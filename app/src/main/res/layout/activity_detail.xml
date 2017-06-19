@@ -43,9 +43,8 @@
         android:id="@+id/descriptionHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:text="Description:"
-        android:layout_below="@+id/locationHolder"
+        android:text="Tweet:"
+        android:layout_below="@+id/Profile_img"
         android:layout_alignStart="@+id/locationHolder" />
 
     <TextView
@@ -56,4 +55,30 @@
         android:layout_below="@+id/descriptionHolder"
         android:layout_toEndOf="@+id/descriptionHolder"
         android:layout_marginStart="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="URL:"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/descriptionText"
+        android:layout_alignStart="@+id/descriptionHolder"
+        android:layout_marginTop="65dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="urlplaceholder"
+        android:id="@+id/textView3"
+        android:layout_toEndOf="@+id/locationHolder"
+        android:layout_alignTop="@+id/textView4" />
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="27dp"
+        android:id="@+id/Profile_img"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

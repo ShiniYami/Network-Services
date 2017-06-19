@@ -109,10 +109,20 @@ class TweetDataModel {
                 Log.d("TEST2", "HI");
                 String text = tweet.getString("text");
                 JSONObject jSONUser = tweet.getJSONObject("user");
+                String url = "none";
+                try {
+                    JSONObject entities = tweet.getJSONObject("entities");
+                    JSONArray urls = entities.getJSONArray("urls");
+                    url = urls.getJSONObject(0).getString("url");
+                } catch (Exception e) {
+                   e.printStackTrace();
+                }
+
                 Log.d("TEST3", "HI");
                 String authorName = jSONUser.getString("name");
                 String authorLocation = jSONUser.getString("location");
                 String profilePictureURL = jSONUser.getString("profile_image_url");
+                profilePictureURL = profilePictureURL.replace("_normal","");
                 String screenName = jSONUser.getString("screen_name");
                 String timeOfPost = tweet.getString("created_at");
                 timeOfPost = timeOfPost.replace("+0000", "");
@@ -153,9 +163,8 @@ class TweetDataModel {
                 String userID = jSONUser.getString("id");
                 String backgroundColor = "#" + jSONUser.getString("profile_background_color");
 
-                Bitmap bitmap = handler.downloadImage(profilePictureURL);
-                User user = new User(authorName, authorLocation, description, screenName, bitmap, backgroundColor, userID);
-                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost);
+                User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, backgroundColor, userID);
+                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost,url);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
@@ -194,10 +203,10 @@ class TweetDataModel {
         try {
             JSONObject jsonObject = new JSONObject(responseBody);
             String profileImageURL = jsonObject.getString("profile_image_url");
+            profileImageURL = profileImageURL.replace("_normal","");
             String name = jsonObject.getString("name");
             String description = jsonObject.getString("description");
             String location = jsonObject.getString("location");
-            Bitmap bitMap = handler.downloadImage(profileImageURL);
             String backgroundColor = "#" + jsonObject.getString("profile_background_color");
             ID = jsonObject.getString("id");
             String screenName = jsonObject.getString("screen_name");
@@ -208,14 +217,14 @@ class TweetDataModel {
             for (User u : users) {
                 if (u.getID().equals(ID)) {
                     count++;
-                    u.setProfile_image_Bitmap(handler.downloadImage(profileImageURL));
+                    u.setUrl(profileImageURL);
                     u.setName(name);
                     u.setDescription(description);
                     u.setLocation(location);
                 }
             }
             if (count == 0) {
-                User user = new User(name, location, description, screenName, bitMap, backgroundColor, ID);
+                User user = new User(name, location, description, screenName, profileImageURL, backgroundColor, ID);
                 users.add(user);
 
             }

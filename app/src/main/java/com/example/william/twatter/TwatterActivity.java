@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 public class TwatterActivity extends AppCompatActivity implements TweetListFragment.itemClicked {
     TweetDataModel model = TweetDataModel.getInstance();
     ImageView imageView;
@@ -138,7 +140,7 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     public void setInfo(String ID) {
         for (User user : model.getUsers()) {
             if (user.getID().equals(ID)) {
-                imageView.setImageBitmap(user.getProfile_image_Bitmap());
+                Picasso.with(getApplicationContext()).load(user.getUrl()).into(imageView);
                 String screenName = "@" + user.getScreenName();
                 nameTextView.setText(user.getName());
                 screennameTextView.setText(screenName);
