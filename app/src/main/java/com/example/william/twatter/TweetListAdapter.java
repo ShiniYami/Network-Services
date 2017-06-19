@@ -19,6 +19,8 @@ import com.example.william.twatter.TwitterInfo.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 /**
  * Created by William on 5/9/2017.
  */
@@ -66,7 +68,7 @@ public class TweetListAdapter extends ArrayAdapter {
 
 
 
-        profileImageView.setImageBitmap(user.getProfile_image_Bitmap());
+        Picasso.with(getContext()).load(user.getUrl()).into(profileImageView);
         name.setText(tweet.getAuthorName());
         text.setText(tweet.getText());
         String tagString = "@" + user.getScreenName();

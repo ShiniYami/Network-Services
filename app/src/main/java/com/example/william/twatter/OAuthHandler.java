@@ -243,22 +243,6 @@ public class OAuthHandler {
 
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        protected Bitmap doInBackground(String... urls) {
-            String urlDisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urlDisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-    }
-
     public OAuthRequest makeRequest(RequestBuilderHelper helper) {
         try {
             return new RequestBuilder().execute(helper).get();
@@ -268,18 +252,6 @@ public class OAuthHandler {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public Bitmap downloadImage(String url){
-        Bitmap bitmap = null;
-        try {
-            bitmap = new DownloadImageTask().execute(url).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
     }
 
 }

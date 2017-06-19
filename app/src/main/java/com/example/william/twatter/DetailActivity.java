@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
 
+import it.sephiroth.android.library.picasso.Picasso;
+
 /**
  * Created by William on 5/9/2017.
  */
@@ -47,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
                 name.setText(user.getName());
                 location.setText(user.getLocation());
                 text.setText(t.getText());
-                profilePicture.setImageBitmap(user.getProfile_image_Bitmap());
+                Picasso.with(getApplicationContext()).load(user.getUrl()).into(profilePicture);
                 final String urlString = t.getUrl();
                 url.setText(urlString);
 
