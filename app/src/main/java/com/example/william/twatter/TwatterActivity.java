@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
@@ -42,8 +43,12 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     TextView descriptionTextView;
     EditText editTextSearch;
     Button searchButton;
+    Button userSearchButton;
     PopupWindow pw;
     RelativeLayout layout;
+    Button followButton;
+
+    public int choice = 0;
 
 
     OAuthHandler handler = OAuthHandler.getInstance();
@@ -69,6 +74,9 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         screennameTextView = (TextView) findViewById(R.id.tagHolder);
         descriptionTextView = (TextView) findViewById(R.id.descriptionHolder);
         layout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        followButton = (Button) findViewById(R.id.followButton);
+
+        followButton.setVisibility(View.GONE);
 
 
         final OAuthRequest request1 = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/account/settings.json"));
@@ -118,10 +126,19 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
 
             editTextSearch = (EditText) pwContentView.findViewById(R.id.editTextSearch);
             searchButton = (Button) pwContentView.findViewById(R.id.bttn_search);
+            userSearchButton = (Button) pwContentView.findViewById(R.id.bttn_user_search);
 
             searchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    choice = 1;
+                    search();
+                }
+            });
+            userSearchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    choice = 2;
                     search();
                 }
             });
@@ -137,14 +154,56 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         handler.sendRequest(request2, 2);
     }
 
+
     public void setInfo(String ID) {
+        followButton.setClickable(true);
+
+        if (!ID.equals(model.getMainUserID())) {
+            followButton.setVisibility(View.VISIBLE);
+        } else {
+            followButton.setVisibility(View.GONE);
+        }
         for (User user : model.getUsers()) {
             if (user.getID().equals(ID)) {
+                final User u = user;
                 Picasso.with(getApplicationContext()).load(user.getUrl()).into(imageView);
                 String screenName = "@" + user.getScreenName();
                 nameTextView.setText(user.getName());
                 screennameTextView.setText(screenName);
                 descriptionTextView.setText(user.getDescription());
+                String isFollowed = "Follow";
+                followButton.setText(isFollowed);
+                if (user.isFollowed()) {
+                    isFollowed = "Unfollow";
+                    followButton.setText(isFollowed);
+                    followButton.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View v) {
+
+                            if (u.isFollowed()) {
+                                unFollowUser(u);
+                                String string = "Follow";
+                                u.setFollowed(false);
+                                followButton.setText(string);
+                                Toast.makeText(model.getActivity(), "User has been unfollowed",
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                followUser(u);
+                                String string = "UnFollow";
+                                u.setFollowed(true);
+                                followButton.setText(string);
+                                Toast.makeText(model.getActivity(), "User has been followed",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    });
+                }
+                if (u.isFollowRequestSent()) {
+                    followButton.setClickable(false);
+                }
+
+
                 //layout.setBackgroundColor(Color.parseColor(user.getBackgroundColor()));
             }
         }
@@ -164,11 +223,18 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        OAuthRequest request;
+        if (choice == 1) {
+            setInfo(model.getMainUserID());
+            request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/search/tweets.json?q=" + search));
+            handler.signRequest(request);
+            handler.sendRequest(request, 0);
+        } else {
+            request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/users/search.json?q=" + search));
+            handler.signRequest(request);
+            handler.sendRequest(request, 4);
+        }
 
-        setInfo(model.getMainUserID());
-        final OAuthRequest request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/search/tweets.json?q=" + search));
-        handler.signRequest(request);
-        handler.sendRequest(request, 0);
     }
 
     public void sendTweet(String message, Activity activity) {
@@ -181,7 +247,6 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         final OAuthRequest request3 = handler.makeRequest(new RequestBuilderHelper("POST", "https://api.twitter.com/1.1/statuses/update.json?status=" + message + "&display_coordinates=false"));
         handler.signRequest(request3);
         handler.sendRequest(request3, 3);
-        refreshListView();
     }
 
     public String encode(String string) throws UnsupportedEncodingException {
@@ -190,9 +255,28 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         return encodedString;
     }
 
-    public void startDetailActivity(String tweetID){
+    public void startDetailActivity(String tweetID) {
         Intent intent = new Intent(TwatterActivity.this, DetailActivity.class);
-        intent.putExtra("TWEETID",tweetID);
+        intent.putExtra("TWEETID", tweetID);
+        startActivity(intent);
+    }
+
+    public void followUser(User user) {
+        String screenname = user.getScreenName();
+        final OAuthRequest request3 = handler.makeRequest(new RequestBuilderHelper("POST", "https://api.twitter.com/1.1/friendships/create.json?screen_name=%40" + screenname + "&user_id=%40" + screenname));
+        handler.signRequest(request3);
+        handler.sendRequest(request3, 3);
+    }
+
+    public void unFollowUser(User user) {
+        String screenname = user.getScreenName();
+        final OAuthRequest request3 = handler.makeRequest(new RequestBuilderHelper("POST", "https://api.twitter.com/1.1/friendships/destroy.json?screen_name=%40" + screenname + "&user_id=%40" + screenname));
+        handler.signRequest(request3);
+        handler.sendRequest(request3, 3);
+    }
+
+    public void startUserSearchActivity() {
+        Intent intent = new Intent(TwatterActivity.this, UserSearchActivity.class);
         startActivity(intent);
     }
 

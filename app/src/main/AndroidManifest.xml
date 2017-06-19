@@ -25,12 +25,12 @@
             android:name=".WebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_web_view"
-            android:parentActivityName=".DetailActivity"
-            android:theme="@style/FullscreenTheme">
+            android:parentActivityName=".DetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.william.twatter.DetailActivity" />
         </activity>
+        <activity android:name=".UserSearchActivity"></activity>
     </application>
 
 </manifest>

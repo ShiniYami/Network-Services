@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         tools:text="Name"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="11dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="24dp" />
+        android:layout_toEndOf="@+id/iv_profilepic" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
         android:text="TextView"
-        tools:text="This is a verry special twat, you don't even know man"
-        android:layout_below="@+id/userName"
-        android:layout_alignParentEnd="true" />
+        tools:text="Description"
+        android:layout_marginStart="28dp"
+        android:layout_below="@+id/tv_name"
+        android:layout_toEndOf="@+id/tv_name" />
+
+    <ImageView
+        android:id="@+id/iv_profilepic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_description"
+        android:layout_alignStart="@+id/tv_name"
+        android:text="name"
+        android:textSize="10sp" />
 </RelativeLayout>

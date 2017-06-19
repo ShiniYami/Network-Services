@@ -24,8 +24,10 @@ public class User {
     private String screenName;
     private String backgroundColor;
     private String ID;
+    private boolean followed;
+    private boolean followRequestSent;
 
-    public User(String name, String location, String description, String screenName, String url, String backgroundColor, String ID){
+    public User(String name, String location, String description, String screenName, String url, String backgroundColor, String ID,boolean followed, boolean followRequestSent){
         this.name = name;
         this.location = location;
         this.description = description;
@@ -33,6 +35,8 @@ public class User {
         this.url = url;
         this.backgroundColor = backgroundColor;
         this.ID = ID;
+        this.followed = followed;
+        this.followRequestSent = followRequestSent;
     }
     public String getName() {
         return name;
@@ -88,5 +92,21 @@ public class User {
 
     public void setBackgroundColor(String backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
+
+    public boolean isFollowRequestSent() {
+        return followRequestSent;
+    }
+
+    public void setFollowRequestSent(boolean followRequestSent) {
+        this.followRequestSent = followRequestSent;
     }
 }

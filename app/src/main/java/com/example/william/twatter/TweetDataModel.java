@@ -42,6 +42,7 @@ import static android.R.attr.format;
 class TweetDataModel {
 
     private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> searchedUsers = new ArrayList<>();
     private ArrayList<Tweet> tweets = new ArrayList<>();
     private static TweetDataModel ourInstance = new TweetDataModel();
     OAuthHandler handler = OAuthHandler.getInstance();
@@ -63,6 +64,9 @@ class TweetDataModel {
         return tweets;
     }
 
+    public ArrayList<User> getSearchedUsers() {
+        return searchedUsers;
+    }
 
     public void loadResponse(String responseBody, int choice) {
         Log.d("TEST311", "hi");
@@ -74,6 +78,9 @@ class TweetDataModel {
         }
         if (choice == 2) {
             choice2(responseBody);
+        }
+        if (choice == 4) {
+            choice4(responseBody);
         }
     }
 
@@ -115,14 +122,14 @@ class TweetDataModel {
                     JSONArray urls = entities.getJSONArray("urls");
                     url = urls.getJSONObject(0).getString("url");
                 } catch (Exception e) {
-                   e.printStackTrace();
+                    e.printStackTrace();
                 }
 
                 Log.d("TEST3", "HI");
                 String authorName = jSONUser.getString("name");
                 String authorLocation = jSONUser.getString("location");
                 String profilePictureURL = jSONUser.getString("profile_image_url");
-                profilePictureURL = profilePictureURL.replace("_normal","");
+                profilePictureURL = profilePictureURL.replace("_normal", "");
                 String screenName = jSONUser.getString("screen_name");
                 String timeOfPost = tweet.getString("created_at");
                 timeOfPost = timeOfPost.replace("+0000", "");
@@ -163,8 +170,10 @@ class TweetDataModel {
                 String userID = jSONUser.getString("id");
                 String backgroundColor = "#" + jSONUser.getString("profile_background_color");
 
-                User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, backgroundColor, userID);
-                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost,url);
+                boolean followed = jSONUser.getBoolean("following");
+                boolean followRequestSent = jSONUser.getBoolean("follow_request_sent");
+                User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, backgroundColor, userID, followed, followRequestSent);
+                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost, url);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
@@ -174,6 +183,7 @@ class TweetDataModel {
                 }
                 if (count == 0) {
                     users.add(user);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -181,6 +191,7 @@ class TweetDataModel {
         }
 
         activity.refreshListView();
+
     }
 
     private void choice1(String responseBody) {
@@ -203,13 +214,17 @@ class TweetDataModel {
         try {
             JSONObject jsonObject = new JSONObject(responseBody);
             String profileImageURL = jsonObject.getString("profile_image_url");
-            profileImageURL = profileImageURL.replace("_normal","");
+            profileImageURL = profileImageURL.replace("_normal", "");
             String name = jsonObject.getString("name");
             String description = jsonObject.getString("description");
             String location = jsonObject.getString("location");
             String backgroundColor = "#" + jsonObject.getString("profile_background_color");
             ID = jsonObject.getString("id");
             String screenName = jsonObject.getString("screen_name");
+            boolean followed = jsonObject.getBoolean("following");
+            boolean followRequestSent = jsonObject.getBoolean("follow_request_sent");
+            Log.d("FOLLOW", followed + "");
+            Log.d("FOLLOWREQ", followRequestSent + "");
             if (screenName.equals(mainUser)) {
                 mainUserID = ID;
             }
@@ -221,10 +236,12 @@ class TweetDataModel {
                     u.setName(name);
                     u.setDescription(description);
                     u.setLocation(location);
+                    u.setFollowed(followed);
+                    u.setFollowRequestSent(followRequestSent);
                 }
             }
             if (count == 0) {
-                User user = new User(name, location, description, screenName, profileImageURL, backgroundColor, ID);
+                User user = new User(name, location, description, screenName, profileImageURL, backgroundColor, ID, followed, followRequestSent);
                 users.add(user);
 
             }
@@ -234,6 +251,56 @@ class TweetDataModel {
             e.printStackTrace();
         }
         activity.setInfo(ID);
+    }
+
+    private void choice4(String responseBody) {
+        searchedUsers.clear();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            jsonArray = new JSONArray(responseBody);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = new JSONObject();
+            try {
+                object = jsonArray.getJSONObject(i);
+
+                String ID = object.getString("id");
+                String profileImageURL = object.getString("profile_image_url");
+                String name = object.getString("name");
+                String description = object.getString("description");
+                String location = object.getString("location");
+                boolean followed = object.getBoolean("following");
+                boolean followRequestSent = object.getBoolean("follow_request_sent");
+                String screenName = object.getString("screen_name");
+                String backgroundColor = object.getString("profile_background_color");
+                int count = 0;
+                User user = new User(name, location, description, screenName, profileImageURL, backgroundColor, ID, followed, followRequestSent);
+                searchedUsers.add(user);
+                for (User u : users) {
+                    if (u.getID().equals(ID)) {
+                        count++;
+                        u.setUrl(profileImageURL);
+                        u.setName(name);
+                        u.setDescription(description);
+                        u.setLocation(location);
+                        u.setFollowed(followed);
+                        u.setFollowRequestSent(followRequestSent);
+                    }
+                }
+                if (count == 0) {
+                    users.add(user);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        activity.startUserSearchActivity();
     }
 
 
