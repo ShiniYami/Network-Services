@@ -176,29 +176,30 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
                 if (user.isFollowed()) {
                     isFollowed = "Unfollow";
                     followButton.setText(isFollowed);
-                    followButton.setOnClickListener(new View.OnClickListener() {
 
-                        public void onClick(View v) {
-
-                            if (u.isFollowed()) {
-                                unFollowUser(u);
-                                String string = "Follow";
-                                u.setFollowed(false);
-                                followButton.setText(string);
-                                Toast.makeText(model.getActivity(), "User has been unfollowed",
-                                        Toast.LENGTH_LONG).show();
-                            } else {
-                                followUser(u);
-                                String string = "UnFollow";
-                                u.setFollowed(true);
-                                followButton.setText(string);
-                                Toast.makeText(model.getActivity(), "User has been followed",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                    });
                 }
+                followButton.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+
+                        if (u.isFollowed()) {
+                            unFollowUser(u);
+                            String string = "Follow";
+                            u.setFollowed(false);
+                            followButton.setText(string);
+                            Toast.makeText(model.getActivity(), "User has been unfollowed",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            followUser(u);
+                            String string = "UnFollow";
+                            u.setFollowed(true);
+                            followButton.setText(string);
+                            Toast.makeText(model.getActivity(), "User has been followed",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                });
                 if (u.isFollowRequestSent()) {
                     followButton.setClickable(false);
                 }

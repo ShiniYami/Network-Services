@@ -263,7 +263,7 @@ class TweetDataModel {
         }
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = new JSONObject();
+            JSONObject object;
             try {
                 object = jsonArray.getJSONObject(i);
 

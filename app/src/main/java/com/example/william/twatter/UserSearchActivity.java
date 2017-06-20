@@ -31,6 +31,7 @@ public class UserSearchActivity extends AppCompatActivity {
 
                 User user = model.getSearchedUsers().get(position);
 
+
                 model.getActivity().getInfo(user.getScreenName());
                 model.getActivity().getTimeLine(user.getScreenName());
                 model.getActivity().click(4, 1, UserSearchActivity.this);
