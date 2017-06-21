@@ -1,4 +1,4 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Helper;
 
 /**
  * Created by William on 6/15/2017.

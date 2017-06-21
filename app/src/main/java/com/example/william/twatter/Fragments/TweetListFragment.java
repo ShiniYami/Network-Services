@@ -1,4 +1,4 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -7,9 +7,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.william.twatter.Adapters.TweetListAdapter;
+import com.example.william.twatter.R;
+import com.example.william.twatter.Singletons.OAuthHandler;
+import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.Tweet;
 
 import java.util.ArrayList;
@@ -28,7 +33,6 @@ public class TweetListFragment extends Fragment {
     private ImageView button1;
     private ImageView button2;
     private ImageView button3;
-    private ImageView button4;
     private ArrayList<Tweet> tweets;
 
     @Override
@@ -50,12 +54,18 @@ public class TweetListFragment extends Fragment {
         button1 = (ImageView) rootView.findViewById(R.id.ImageView1);
         button2 = (ImageView) rootView.findViewById(R.id.ImageView2);
         button3 = (ImageView) rootView.findViewById(R.id.ImageView3);
-        button4 = (ImageView) rootView.findViewById(R.id.ImageView4);
 
         tweets = model.getTweets();
         adapt = new TweetListAdapter(getActivity(), R.layout.tweet_list_item, tweets);
         lv.setAdapter(adapt);
 
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                model.getActivity().startDetailActivity(position);
+            }
+        });
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,12 +83,6 @@ public class TweetListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.click(3,0,getActivity());
-            }
-        });
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.click(4,0,getActivity());
             }
         });
 

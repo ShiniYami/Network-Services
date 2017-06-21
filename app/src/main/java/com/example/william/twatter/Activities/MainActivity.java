@@ -1,6 +1,7 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,9 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.william.twatter.R;
+import com.example.william.twatter.Singletons.OAuthHandler;
+import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.AccesTokenInfoHolder;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
@@ -24,11 +28,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         intent = new Intent(MainActivity.this, TwatterActivity.class);
         handler.setActivity(this);
+        SharedPreferences keySets;
+        keySets = getSharedPreferences("Twatter", 0);
 
-        try{ handler.getKeySets().getString("ACCES_TOKEN",null);
-            handler.getAccessToken(new AccesTokenInfoHolder(null,"dummy"));
-            startActivity(intent);
-        } catch (NullPointerException e){
+        if (!keySets.contains("ACCESS_TOKEN")) {
             WebView wv = (WebView) findViewById(R.id.slaveLabour);
             AccesTokenInfoHolder holder = handler.startOauth();
             String url = holder.getContent();
@@ -45,23 +48,18 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("GIMMEVER", "veri");
                         Boolean accessToken = handler.getAccessToken(holder);
                         Log.d("GIMMEACCES", "acces");
-//                    handler.oathVerifier = resourceRequest.getUrl().toString();
-//                    handler.accesTokenTask.start();
                         startActivity(intent);
-                        //...
                         return true;
                     }
                     return false;
                 }
             });
+        } else {
+            Log.d("TOKEN", keySets.getString("ACCESS_TOKEN", ""));
+            handler.getAccessToken(new AccesTokenInfoHolder(null, "dummy"));
+            startActivity(intent);
+
+
         }
-
-
-//   handler.setAccesToken();
-
-//        handler.beenVerified = true;
-//        handler.setAccesToken();
-
-
     }
 }

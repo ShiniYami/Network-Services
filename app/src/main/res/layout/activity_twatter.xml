@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.example.william.twatter.TwatterActivity">
+    tools:context="com.example.william.twatter.Activities.TwatterActivity">
 
     <RelativeLayout
         android:id="@+id/container1"
@@ -14,7 +14,7 @@
 
         <fragment
             android:id="@+id/listfrag"
-            android:name="com.example.william.twatter.TweetListFragment"
+            android:name="com.example.william.twatter.Fragments.TweetListFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/border"
@@ -42,12 +42,12 @@
                 android:id="@+id/descriptionHolder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
-                android:textColor="@android:color/white"
                 android:layout_alignBaseline="@+id/nameHolder"
                 android:layout_alignBottom="@+id/nameHolder"
+                android:layout_marginStart="25dp"
                 android:layout_toEndOf="@+id/nameHolder"
-                android:layout_marginStart="25dp" />
+                android:text="TextView"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/tagHolder"
@@ -63,12 +63,12 @@
                 android:id="@+id/nameHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:text="TextView"
-                android:textColor="@android:color/white"
                 android:layout_alignParentTop="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="18dp"
                 android:layout_toEndOf="@+id/imageView"
-                android:layout_marginStart="13dp" />
+                android:text="TextView"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/followButton"

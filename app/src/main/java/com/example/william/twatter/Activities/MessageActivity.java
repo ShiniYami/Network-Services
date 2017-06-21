@@ -1,4 +1,4 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.william.twatter.R;
+import com.example.william.twatter.Singletons.TweetDataModel;
+
 public class MessageActivity extends AppCompatActivity {
 
     private EditText editText;
@@ -14,7 +17,6 @@ public class MessageActivity extends AppCompatActivity {
     private ImageView imageView1;
     private ImageView imageView2;
     private ImageView imageView3;
-    private ImageView imageView4;
     private TweetDataModel model = TweetDataModel.getInstance();
 
     @Override
@@ -27,7 +29,6 @@ public class MessageActivity extends AppCompatActivity {
         imageView1 = (ImageView) findViewById(R.id.ImageView1);
         imageView2 = (ImageView) findViewById(R.id.ImageView2);
         imageView3 = (ImageView) findViewById(R.id.ImageView3);
-        imageView4 = (ImageView) findViewById(R.id.ImageView4);
 
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,12 +46,6 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 model.getActivity().click(3, 1, MessageActivity.this);
-            }
-        });
-        imageView4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.getActivity().click(4, 1, MessageActivity.this);
             }
         });
         button.setOnClickListener(new View.OnClickListener() {

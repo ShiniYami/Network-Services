@@ -4,4 +4,6 @@
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_search_list">SearchListActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

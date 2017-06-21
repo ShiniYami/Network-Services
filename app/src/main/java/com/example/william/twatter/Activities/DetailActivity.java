@@ -1,11 +1,12 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.william.twatter.R;
+import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
 
@@ -29,12 +30,11 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        String tweetid = getIntent().getStringExtra("TWEETID");
-        Log.d("TEST", tweetid);
+        int position = getIntent().getIntExtra("POSITION", 0);
+
         TweetDataModel model = TweetDataModel.getInstance();
 
-        for (Tweet t : model.getTweets()) {
-            if (t.getTweetID().equals(tweetid)) {
+        Tweet t = model.getTweets().get(position);
                 User user = t.getUser();
 
                 name = (TextView) findViewById(R.id.nameText);
@@ -50,7 +50,6 @@ public class DetailActivity extends AppCompatActivity {
                 final String urlString = t.getUrl();
                 url.setText(urlString);
 
-            }
-        }
+
     }
 }

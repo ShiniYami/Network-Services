@@ -1,10 +1,11 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Singletons;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.william.twatter.Helper.RequestBuilderHelper;
 import com.example.william.twatter.TwitterInfo.AccesTokenInfoHolder;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -34,17 +35,13 @@ public class OAuthHandler {
     private Activity activity;
     private TweetDataModel model = TweetDataModel.getInstance();
     private OAuth1AccessToken accessTokenFinal;
-    private OAuth1AccessToken accessToken;
+
 
     public OAuthHandler() {
     }
 
     public static OAuthHandler getInstance() {
         return ourInstance;
-    }
-
-    public OAuth1AccessToken getAccessTokenFinal() {
-        return accessTokenFinal;
     }
 
     public SharedPreferences getKeySets() {
@@ -148,9 +145,6 @@ public class OAuthHandler {
             AccesTokenInfoHolder holder = new AccesTokenInfoHolder(requestToken, authUrl);
             return holder;
         }
-
-        protected void onPostExecute(Long result) {
-        }
     }
 
     public class oAuthAccessToken extends AsyncTask<AccesTokenInfoHolder, Integer, Boolean> {
@@ -158,11 +152,12 @@ public class OAuthHandler {
         @Override
         protected Boolean doInBackground(AccesTokenInfoHolder... params) {
             keySets = activity.getSharedPreferences("Twatter", 0);
-            SharedPreferences.Editor settings = keySets.edit();
+
             try {
-                if (keySets.contains("ACCES_TOKEN")) {
-                    accessTokenFinal = new OAuth1AccessToken(keySets.getString("ACCES_TOKEN", null), keySets.getString("ACCES_TOKEN_SECRET", null));
+                if (keySets.contains("ACCESS_TOKEN")) {
+                    accessTokenFinal = new OAuth1AccessToken(keySets.getString("ACCESS_TOKEN", null), keySets.getString("ACCESS_TOKEN_SECRET", null));
                 } else {
+                    SharedPreferences.Editor settings = keySets.edit();
                     accessTokenFinal = service.getAccessToken(params[0].getRequestToken(), params[0].getContent());
                     settings.putString("ACCESS_TOKEN", accessTokenFinal.getToken());
                     settings.putString("ACCESS_TOKEN_SECRET", accessTokenFinal.getTokenSecret());
@@ -207,11 +202,6 @@ public class OAuthHandler {
 
             return body;
         }
-
-//        @Override
-//        protected void onPostExecute(Response response) {
-//            super.onPostExecute(response);
-//        }
     }
 
     public class RequestBuilder extends AsyncTask<RequestBuilderHelper, Integer, OAuthRequest> {

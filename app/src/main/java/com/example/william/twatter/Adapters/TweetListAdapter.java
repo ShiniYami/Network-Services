@@ -1,4 +1,4 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Adapters;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.william.twatter.R;
+import com.example.william.twatter.Singletons.OAuthHandler;
+import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
 
@@ -82,14 +85,7 @@ public class TweetListAdapter extends ArrayAdapter {
             public void onClick(View v) {
                 Log.d("TEST4.4.4", user.getID());
                 model.getActivity().getInfo(user.getScreenName());
-                model.getActivity().getTimeLine(user.getScreenName());
-            }
-        });
-
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.getActivity().startDetailActivity(tweet.getTweetID());
+                model.getActivity().getTimeLine(user.getScreenName(), false);
             }
         });
 

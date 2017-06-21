@@ -1,7 +1,8 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Singletons;
 
 import android.util.Log;
 
+import com.example.william.twatter.Activities.TwatterActivity;
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * Created by William on 5/9/2017.
  */
 
-class TweetDataModel {
+public class TweetDataModel {
 
     private static TweetDataModel ourInstance = new TweetDataModel();
     private ArrayList<User> users = new ArrayList<>();
@@ -31,7 +32,7 @@ class TweetDataModel {
 
     }
 
-    static TweetDataModel getInstance() {
+    public static TweetDataModel getInstance() {
         return ourInstance;
     }
 
@@ -77,7 +78,6 @@ class TweetDataModel {
 
 
             try {
-//            JSONObject jsonobject = new JSONObject(responseBody);
                 jsonArray = new JSONArray(responseBody);
 
                 Log.d("TEST6.3.2", jsonArray.length() + "");
@@ -150,12 +150,11 @@ class TweetDataModel {
                 }
                 String tweetID = tweet.getString("id");
                 String userID = jSONUser.getString("id");
-                String backgroundColor = "#" + jSONUser.getString("profile_background_color");
 
                 boolean followed = jSONUser.getBoolean("following");
                 boolean followRequestSent = jSONUser.getBoolean("follow_request_sent");
-                User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, backgroundColor, userID, followed, followRequestSent);
-                Tweet newTweet = new Tweet(authorName, text, user, userID, tweetID, timeOfPost, url);
+                User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, userID, followed, followRequestSent);
+                Tweet newTweet = new Tweet(authorName, text, user, tweetID, timeOfPost, url);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {
@@ -200,7 +199,6 @@ class TweetDataModel {
             String name = jsonObject.getString("name");
             String description = jsonObject.getString("description");
             String location = jsonObject.getString("location");
-            String backgroundColor = "#" + jsonObject.getString("profile_background_color");
             ID = jsonObject.getString("id");
             String screenName = jsonObject.getString("screen_name");
             boolean followed = jsonObject.getBoolean("following");
@@ -223,7 +221,7 @@ class TweetDataModel {
                 }
             }
             if (count == 0) {
-                User user = new User(name, location, description, screenName, profileImageURL, backgroundColor, ID, followed, followRequestSent);
+                User user = new User(name, location, description, screenName, profileImageURL, ID, followed, followRequestSent);
                 users.add(user);
 
             }
@@ -258,9 +256,9 @@ class TweetDataModel {
                 boolean followed = object.getBoolean("following");
                 boolean followRequestSent = object.getBoolean("follow_request_sent");
                 String screenName = object.getString("screen_name");
-                String backgroundColor = object.getString("profile_background_color");
+
                 int count = 0;
-                User user = new User(name, location, description, screenName, profileImageURL, backgroundColor, ID, followed, followRequestSent);
+                User user = new User(name, location, description, screenName, profileImageURL, ID, followed, followRequestSent);
                 searchedUsers.add(user);
                 for (User u : users) {
                     if (u.getID().equals(ID)) {
@@ -301,38 +299,6 @@ class TweetDataModel {
     public void setActivity(TwatterActivity activity) {
         this.activity = activity;
     }
-    //    public void loadJSONFromFile(Context context) {//stolen from yoran on 12th of september, 1944, SS bunker 200 meters underground
-//        String json = null;
-//
-//        InputStream is = null;
-//        try {
-//            is = context.getAssets().open("test.json");
-//            Scanner scanner = new Scanner(is);
-//            StringBuilder builder = new StringBuilder();
-//
-//            while (scanner.hasNextLine()) {
-//                builder.append(scanner.nextLine());
-//            }
-//            JSONObject object = new JSONObject(builder.toString());
-//            JSONArray tweetArray = object.getJSONArray("statuses");
-//            int x = tweetArray.length();
-//            for (int tweetCount = 0; tweetCount < tweetArray.length(); tweetCount++) {
-//                JSONObject tweet = tweetArray.getJSONObject(tweetCount);
-//                String id = tweet.getContent("id_str");
-//                String text = tweet.getContent("text");
-//                JSONObject jSONUser = tweet.getJSONObject("user");
-//                User user = new User(jSONUser.getContent("name"), jSONUser.getContent("location"), jSONUser.getContent("description"));
-//                Tweet newTweet = new Tweet(id, text, user);
-//                tweets.add(newTweet);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//    }
-
 
 }
 

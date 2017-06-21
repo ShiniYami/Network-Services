@@ -1,4 +1,4 @@
-package com.example.william.twatter;
+package com.example.william.twatter.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.william.twatter.Adapters.UserListAdapter;
+import com.example.william.twatter.R;
+import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.User;
 
 public class UserSearchActivity extends AppCompatActivity {
@@ -33,7 +36,7 @@ public class UserSearchActivity extends AppCompatActivity {
 
 
                 model.getActivity().getInfo(user.getScreenName());
-                model.getActivity().getTimeLine(user.getScreenName());
+                model.getActivity().getTimeLine(user.getScreenName(), false);
                 model.getActivity().click(4, 1, UserSearchActivity.this);
             }
         });

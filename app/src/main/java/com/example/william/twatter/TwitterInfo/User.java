@@ -13,18 +13,16 @@ public class User {
     private String description;
     private String url;
     private String screenName;
-    private String backgroundColor;
     private String ID;
     private boolean followed;
     private boolean followRequestSent;
 
-    public User(String name, String location, String description, String screenName, String url, String backgroundColor, String ID,boolean followed, boolean followRequestSent){
+    public User(String name, String location, String description, String screenName, String url, String ID, boolean followed, boolean followRequestSent) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.screenName = screenName;
         this.url = url;
-        this.backgroundColor = backgroundColor;
         this.ID = ID;
         this.followed = followed;
         this.followRequestSent = followRequestSent;

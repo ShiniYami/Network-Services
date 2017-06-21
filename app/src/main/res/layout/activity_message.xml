@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.william.twatter.MessageActivity"
-    android:weightSum="10">
+    android:weightSum="10"
+    tools:context="com.example.william.twatter.Activities.MessageActivity">
 
 
     <EditText
@@ -15,8 +15,8 @@
         android:layout_height="0dp"
         android:layout_weight="8"
         android:ems="10"
-        android:inputType="textMultiLine"
-        android:hint="Type your tweet here..."/>
+        android:hint="Type your tweet here..."
+        android:inputType="textMultiLine" />
 
 
     <LinearLayout
@@ -58,14 +58,6 @@
 
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_search" />
-
-        <ImageView
-            android:id="@+id/ImageView4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-
-            app:srcCompat="@android:drawable/ic_delete" />
 
     </LinearLayout>
 </LinearLayout>
