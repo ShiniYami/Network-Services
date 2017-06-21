@@ -9,18 +9,18 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 public class AccesTokenInfoHolder {
 
     OAuth1RequestToken requestToken;
-    String string;
+    String content;
 
-    public AccesTokenInfoHolder(OAuth1RequestToken requestToken, String string) {
+    public AccesTokenInfoHolder(OAuth1RequestToken requestToken, String content) {
         this.requestToken = requestToken;
-        this.string = string;
+        this.content = content;
     }
 
     public OAuth1RequestToken getRequestToken() {
         return requestToken;
     }
 
-    public String getString() {
-        return string;
+    public String getContent() {
+        return content;
     }
 }

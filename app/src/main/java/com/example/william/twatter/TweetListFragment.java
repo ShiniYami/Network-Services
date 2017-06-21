@@ -2,19 +2,15 @@ package com.example.william.twatter;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.william.twatter.TwitterInfo.Tweet;
-import com.example.william.twatter.TwitterInfo.User;
 
 import java.util.ArrayList;
 
@@ -24,23 +20,16 @@ import java.util.ArrayList;
 
 public class TweetListFragment extends Fragment {
 
-    TweetDataModel model = TweetDataModel.getInstance();
-    OAuthHandler handler = OAuthHandler.getInstance();
-
-    ListView lv;
-    TweetListAdapter adapt;
-    ImageView button1;
-    ImageView button2;
-    ImageView button3;
-    ImageView button4;
-
-    ArrayList<Tweet> tweets;
-
-    public interface itemClicked {
-        public void click(int position, int kind, Activity activity);
-    }
-
     itemClicked listener;
+    private TweetDataModel model = TweetDataModel.getInstance();
+    private OAuthHandler handler = OAuthHandler.getInstance();
+    private ListView lv;
+    private TweetListAdapter adapt;
+    private ImageView button1;
+    private ImageView button2;
+    private ImageView button3;
+    private ImageView button4;
+    private ArrayList<Tweet> tweets;
 
     @Override
     public void onAttach(Activity activity) {
@@ -96,9 +85,13 @@ public class TweetListFragment extends Fragment {
         return rootView;
     }
 
-
     public void refreshListView(){
         adapt.notifyDataSetChanged();
+    }
+
+
+    public interface itemClicked {
+        public void click(int position, int kind, Activity activity);
     }
 
 }

@@ -1,20 +1,11 @@
 package com.example.william.twatter.TwitterInfo;
 
-import android.graphics.Bitmap;
-import android.widget.ImageView;
-
-import com.example.william.twatter.OAuthHandler;
-
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 /**
  * Created by William on 5/9/2017.
  */
 
 public class User {
 
-    OAuthHandler handler = OAuthHandler.getInstance();
 
     private String name;
     private String location;
@@ -42,16 +33,24 @@ public class User {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLocation() {
         return location;
     }
 
-    public int getAge() {
-        return age;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUrl() {
@@ -66,32 +65,8 @@ public class User {
         return screenName;
     }
 
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-
     public String getID() {
         return ID;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
     }
 
     public boolean isFollowed() {

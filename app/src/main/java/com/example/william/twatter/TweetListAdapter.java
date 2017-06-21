@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.william.twatter.TwitterInfo.Tweet;
@@ -27,17 +26,17 @@ import it.sephiroth.android.library.picasso.Picasso;
 
 public class TweetListAdapter extends ArrayAdapter {
 
-    TweetDataModel model = TweetDataModel.getInstance();
-    OAuthHandler handler = OAuthHandler.getInstance();
+    private TweetDataModel model = TweetDataModel.getInstance();
+    private OAuthHandler handler = OAuthHandler.getInstance();
 
-    ArrayList<Tweet> tweets;
-    ArrayList<User> users;
+    private ArrayList<Tweet> tweets;
+    private ArrayList<User> users;
 
-    TextView name;
-    TextView text;
-    ImageView profileImageView;
-    TextView tag;
-    TextView time;
+    private TextView name;
+    private TextView text;
+    private ImageView profileImageView;
+    private TextView tag;
+    private TextView time;
 
     public TweetListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List objects) {
         super(context, resource, objects);

@@ -1,7 +1,7 @@
 package com.example.william.twatter;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,10 +10,10 @@ import com.example.william.twatter.TwitterInfo.User;
 
 public class UserSearchActivity extends AppCompatActivity {
 
-    TweetDataModel model = TweetDataModel.getInstance();
+    private TweetDataModel model = TweetDataModel.getInstance();
 
-    ListView lv;
-    UserListAdapter adapt;
+    private ListView lv;
+    private UserListAdapter adapt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,11 +3,8 @@ package com.example.william.twatter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,42 +13,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
-import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verb;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
 public class TwatterActivity extends AppCompatActivity implements TweetListFragment.itemClicked {
-    TweetDataModel model = TweetDataModel.getInstance();
-    ImageView imageView;
-    TextView nameTextView;
-    TextView screennameTextView;
-    TextView descriptionTextView;
-    EditText editTextSearch;
-    Button searchButton;
-    Button userSearchButton;
-    PopupWindow pw;
-    RelativeLayout layout;
-    Button followButton;
-
     public int choice = 0;
-
-
-    OAuthHandler handler = OAuthHandler.getInstance();
+    private TweetDataModel model = TweetDataModel.getInstance();
+    private ImageView imageView;
+    private TextView nameTextView;
+    private TextView screennameTextView;
+    private TextView descriptionTextView;
+    private EditText editTextSearch;
+    private Button searchButton;
+    private Button userSearchButton;
+    private PopupWindow pw;
+    private RelativeLayout layout;
+    private Button followButton;
+    private OAuthHandler handler = OAuthHandler.getInstance();
 
     private int deviceHeight;
     private int deviceWidth;

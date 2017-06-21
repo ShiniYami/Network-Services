@@ -1,25 +1,21 @@
 package com.example.william.twatter;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class MessageActivity extends AppCompatActivity {
 
-    EditText editText;
-    Button button;
-    ImageView imageView1;
-    ImageView imageView2;
-    ImageView imageView3;
-    ImageView imageView4;
-    TweetDataModel model = TweetDataModel.getInstance();
+    private EditText editText;
+    private Button button;
+    private ImageView imageView1;
+    private ImageView imageView2;
+    private ImageView imageView3;
+    private ImageView imageView4;
+    private TweetDataModel model = TweetDataModel.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +53,17 @@ public class MessageActivity extends AppCompatActivity {
                 model.getActivity().click(4, 1, MessageActivity.this);
             }
         });
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
             }
         });
-
-
     }
 
     private void sendMessage() {
         String string = String.valueOf(editText.getText());
         model.getActivity().sendTweet(string,MessageActivity.this);
     }
-
-
 
 }

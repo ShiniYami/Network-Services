@@ -5,8 +5,8 @@ package com.example.william.twatter;
  */
 
 public class RequestBuilderHelper {
-    String action;
-    String url;
+    private String action;
+    private String url;
 
     public RequestBuilderHelper(String action, String url) {
         this.action = action;

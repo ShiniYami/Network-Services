@@ -1,11 +1,8 @@
 package com.example.william.twatter;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,21 +50,7 @@ public class DetailActivity extends AppCompatActivity {
                 final String urlString = t.getUrl();
                 url.setText(urlString);
 
-                url.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startWebViewActivity(urlString);
-                    }
-                });
             }
         }
-
-
-    }
-
-    public void startWebViewActivity(String url) {
-        Intent intent = new Intent(DetailActivity.this, WebViewActivity.class);
-        intent.putExtra("URL", url);
-        startActivity(intent);
     }
 }

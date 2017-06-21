@@ -5,6 +5,23 @@ package com.example.william.twatter.TwitterInfo;
  */
 
 public class Tweet {
+    private User user;
+    private String authorName = "Unknown";
+    private String text = "Empty";
+    private String userID;
+    private String tweetID;
+    private String timeOfPost;
+    private String url;
+    public Tweet(String author,String text, User user, String userID, String tweetID, String timeOfPost, String url) {
+        this.authorName = author;
+        this.text = text+"\n";
+        this.user = user;
+        this.userID = userID;
+        this.tweetID = tweetID;
+        this.timeOfPost = timeOfPost;
+        this.url = url;
+    }
+
     public String getAuthorName() {
         return authorName;
     }
@@ -16,28 +33,8 @@ public class Tweet {
     public void setText(String text) {
         this.text = text;
     }
-    private User user;
-    private String authorName = "Unknown";
-    private String text = "Empty";
-    private String userID;
-    private String tweetID;
-    private String timeOfPost;
-    private String url;
-
-    public Tweet(String author,String text, User user, String userID, String tweetID, String timeOfPost, String url) {
-        this.authorName = author;
-        this.text = text+"\n";
-        this.user = user;
-        this.userID = userID;
-        this.tweetID = tweetID;
-        this.timeOfPost = timeOfPost;
-        this.url = url;
-    }
-
-
 
     public User getUser(){return user;}
-
 
     public String getTweetID() {
         return tweetID;

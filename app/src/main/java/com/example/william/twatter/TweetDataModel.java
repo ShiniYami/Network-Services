@@ -1,39 +1,15 @@
 package com.example.william.twatter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
 
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
-import com.github.scribejava.apis.TwitterApi;
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuth1AccessToken;
-import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth10aService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
-
-import static android.R.attr.format;
 
 /**
  * Created by William on 5/9/2017.
@@ -41,20 +17,23 @@ import static android.R.attr.format;
 
 class TweetDataModel {
 
+    private static TweetDataModel ourInstance = new TweetDataModel();
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<User> searchedUsers = new ArrayList<>();
     private ArrayList<Tweet> tweets = new ArrayList<>();
-    private static TweetDataModel ourInstance = new TweetDataModel();
-    OAuthHandler handler = OAuthHandler.getInstance();
+    private OAuthHandler handler = OAuthHandler.getInstance();
     private String mainUser;
     private String mainUserID;
     private TwatterActivity activity;
 
 
+    public TweetDataModel() {
+
+    }
+
     static TweetDataModel getInstance() {
         return ourInstance;
     }
-
 
     public ArrayList<User> getUsers() {
         return users;
@@ -78,6 +57,9 @@ class TweetDataModel {
         }
         if (choice == 2) {
             choice2(responseBody);
+        }
+        if (choice == 3) {
+            //ignore, because it is a post
         }
         if (choice == 4) {
             choice4(responseBody);
@@ -304,11 +286,6 @@ class TweetDataModel {
         activity.startUserSearchActivity();
     }
 
-
-    public TweetDataModel() {
-
-    }
-
     public String getMainUser() {
         return mainUser;
     }
@@ -317,13 +294,12 @@ class TweetDataModel {
         return mainUserID;
     }
 
-    public void setActivity(TwatterActivity activity) {
-        this.activity = activity;
-    }
-
-
     public TwatterActivity getActivity() {
         return activity;
+    }
+
+    public void setActivity(TwatterActivity activity) {
+        this.activity = activity;
     }
     //    public void loadJSONFromFile(Context context) {//stolen from yoran on 12th of september, 1944, SS bunker 200 meters underground
 //        String json = null;
@@ -342,10 +318,10 @@ class TweetDataModel {
 //            int x = tweetArray.length();
 //            for (int tweetCount = 0; tweetCount < tweetArray.length(); tweetCount++) {
 //                JSONObject tweet = tweetArray.getJSONObject(tweetCount);
-//                String id = tweet.getString("id_str");
-//                String text = tweet.getString("text");
+//                String id = tweet.getContent("id_str");
+//                String text = tweet.getContent("text");
 //                JSONObject jSONUser = tweet.getJSONObject("user");
-//                User user = new User(jSONUser.getString("name"), jSONUser.getString("location"), jSONUser.getString("description"));
+//                User user = new User(jSONUser.getContent("name"), jSONUser.getContent("location"), jSONUser.getContent("description"));
 //                Tweet newTweet = new Tweet(id, text, user);
 //                tweets.add(newTweet);
 //            }

@@ -2,27 +2,21 @@ package com.example.william.twatter;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.example.william.twatter.TwitterInfo.AccesTokenInfoHolder;
-import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.model.OAuthRequest;
-
-import static com.github.scribejava.core.model.Verb.GET;
 
 public class MainActivity extends AppCompatActivity {
-    TweetDataModel model = TweetDataModel.getInstance();
-    OAuthHandler handler = OAuthHandler.getInstance();
+    private TweetDataModel model = TweetDataModel.getInstance();
+    private OAuthHandler handler = OAuthHandler.getInstance();
 
 
-    Intent intent;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e){
             WebView wv = (WebView) findViewById(R.id.slaveLabour);
             AccesTokenInfoHolder holder = handler.startOauth();
-            String url = holder.getString();
+            String url = holder.getContent();
             final OAuth1RequestToken requestToken = holder.getRequestToken();
             wv.loadUrl(url);
             wv.setWebViewClient(new WebViewClient() {
