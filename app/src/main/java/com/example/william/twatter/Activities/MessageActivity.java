@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import com.example.william.twatter.R;
 import com.example.william.twatter.Singletons.TweetDataModel;
 
+/**
+ * This class displays the activity in which you can post tweets.
+ */
+
 public class MessageActivity extends AppCompatActivity {
 
     private EditText editText;
@@ -30,6 +34,8 @@ public class MessageActivity extends AppCompatActivity {
         imageView2 = (ImageView) findViewById(R.id.ImageView2);
         imageView3 = (ImageView) findViewById(R.id.ImageView3);
 
+
+        //this is the menu at the bottom.
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +54,8 @@ public class MessageActivity extends AppCompatActivity {
                 model.getActivity().click(3, 1, MessageActivity.this);
             }
         });
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +64,10 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * This method will make it so the tweet gets posted.
+     */
     private void sendMessage() {
         String string = String.valueOf(editText.getText());
         model.getActivity().sendTweet(string,MessageActivity.this);

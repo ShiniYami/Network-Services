@@ -27,6 +27,10 @@ import java.net.URLEncoder;
 
 import it.sephiroth.android.library.picasso.Picasso;
 
+/**
+ * This class displays the home screen, which is the TwatterActivity.
+ */
+
 public class TwatterActivity extends AppCompatActivity implements TweetListFragment.itemClicked {
 
     private TweetDataModel model = TweetDataModel.getInstance();
@@ -35,7 +39,6 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     private TextView screennameTextView;
     private TextView descriptionTextView;
 
-    private PopupWindow pw;
     private RelativeLayout layout;
     private Button followButton;
     private OAuthHandler handler = OAuthHandler.getInstance();
@@ -45,10 +48,6 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twatter);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int deviceHeight = displayMetrics.heightPixels;
-        int deviceWidth = displayMetrics.widthPixels;
         model.setActivity(this);
 
 
@@ -60,19 +59,20 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         layout = (RelativeLayout) findViewById(R.id.relativeLayout);
         followButton = (Button) findViewById(R.id.followButton);
 
-
+        //make the follow button invisible so that you wont follow yourself.
         followButton.setVisibility(View.GONE);
 
-
+//here we make the request
         final OAuthRequest request1 = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/account/settings.json"));
 
-
+//here we sign the request
         handler.signRequest(request1);
 
-
+//here we send the request
         handler.sendRequest(request1, 1);
-
+//set the name to the main user, so his timeline and info will show.
         String name = model.getMainUser();
+        
         getInfo(name);
         getTimeLine(name, true);
 
@@ -81,7 +81,7 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
 
     public void getTimeLine(String name, boolean useHomeTimeline) {
         OAuthRequest request;
-        if (name.equals(model.getMainUser()) && useHomeTimeline == true) {
+        if (name.equals(model.getMainUser()) && useHomeTimeline) {
             request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/statuses/home_timeline.json?count=20"));
         } else {
             request = handler.makeRequest(new RequestBuilderHelper("GET", "https://api.twitter.com/1.1/statuses/user_timeline.json?count=20&user_id=%40" + name + "&screen_name=%40" + name + ""));
@@ -180,7 +180,6 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         fragment.refreshListView();
 
     }
-
 
 
     public void sendTweet(String message, Activity activity) {
