@@ -86,6 +86,12 @@ public class OAuthHandler {
 
     }
 
+
+    /**
+     * This method calls the asyncTask to sign the request.
+     * @param request is the request it just signed.
+     * @return the signed request.
+     */
     public OAuthRequest signRequest(OAuthRequest request) {
         boolean signedRequest = false;
         try {
@@ -98,6 +104,11 @@ public class OAuthHandler {
         return request;
     }
 
+    /**
+     * This method calls the AsyncTask to send the request to twitter.
+     * @param request is the request that needs to be sent to twitter
+     * @param choice defines what kind of request it is.
+     */
     public void sendRequest(OAuthRequest request, int choice) {
         String body = null;
         Log.d("TEST111", "hi");
@@ -113,9 +124,15 @@ public class OAuthHandler {
         Log.d("TEST111", body);
         Log.d("TEST111", choice + "");
         model = TweetDataModel.getInstance();
+        //Sends the body and choice over to the TweetDataModel, so that it can add the data to the
+        // model.
         model.loadResponse(body, choice);
     }
 
+    /**
+     * This method gets the requestToken from the OAuth service.
+     * @return the gathered requestToken.
+     */
     private OAuth1RequestToken setRequestToken() {
         OAuth1RequestToken requestToken = null;
         try {
@@ -130,6 +147,12 @@ public class OAuthHandler {
         this.activity = activity;
     }
 
+    /**
+     * This method calls the AsyncTask that builds the request using the given kind and url
+     * provided in the RequestBuilderHelper.
+     * @param helper is the given helper which contains the kind and the url.
+     * @return the request which gets created in the AsyncTask.
+     */
     public OAuthRequest makeRequest(RequestBuilderHelper helper) {
         try {
             return new RequestBuilder().execute(helper).get();
@@ -141,22 +164,34 @@ public class OAuthHandler {
         return null;
     }
 
+
+    /**
+     * This class extends an AsyncTask and makes sure we get the URL and the requestToken from the
+     * service.
+     */
     public class signInTask extends AsyncTask<OAuthRequest, Integer, AccesTokenInfoHolder> {
         protected void onProgressUpdate(Integer... progress) {
         }
 
         @Override
         public AccesTokenInfoHolder doInBackground(OAuthRequest... params) {
-
+            //This makes sure we get a requestToken.
             OAuth1RequestToken requestToken = setRequestToken();
             Log.d("REQTEST", requestToken.toString());
+            //This creates an authURL to which we can redirect the user.
             String authUrl = createOathUrl(requestToken);
             Log.d("REQTEST2", authUrl);
+            //here we store them as one so that we can return it.
             AccesTokenInfoHolder holder = new AccesTokenInfoHolder(requestToken, authUrl);
             return holder;
         }
     }
 
+    /**
+     * This class extends an AsyncTask and makes sure we create an accessToken and store it's
+     * components afterwards, if it's already stored then we get the components out of the shared
+     * preferences and create the accessToken with that.
+     */
     public class oAuthAccessToken extends AsyncTask<AccesTokenInfoHolder, Integer, Boolean> {
 
         @Override
@@ -164,11 +199,15 @@ public class OAuthHandler {
             keySets = activity.getSharedPreferences("Twatter", 0);
 
             try {
+                //here we check if we already have the required components to build the accessToken, if so we build it and ignore the rest.
                 if (keySets.contains("ACCESS_TOKEN")) {
                     accessTokenFinal = new OAuth1AccessToken(keySets.getString("ACCESS_TOKEN", null), keySets.getString("ACCESS_TOKEN_SECRET", null));
-                } else {
+                }
+                //here we use the request token and the verifier to build the accessToken.
+                else {
                     SharedPreferences.Editor settings = keySets.edit();
                     accessTokenFinal = service.getAccessToken(params[0].getRequestToken(), params[0].getContent());
+                    //here we store the components of the accessToken in the shared preferences.
                     settings.putString("ACCESS_TOKEN", accessTokenFinal.getToken());
                     settings.putString("ACCESS_TOKEN_SECRET", accessTokenFinal.getTokenSecret());
                     settings.apply();
