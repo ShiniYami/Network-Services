@@ -221,12 +221,16 @@ public class OAuthHandler {
         }
     }
 
+    /**
+     * This class extends an AsyncTask and makes sure the request gets signed.
+     */
     public class requestSigner extends AsyncTask<OAuthRequest, Integer, Boolean> {
 
 
         @Override
         protected Boolean doInBackground(OAuthRequest... params) {
             try {
+                //here we sign the request given using the AccessToken and the request.
                 service.signRequest(new OAuth1AccessToken(keySets.getString("ACCESS_TOKEN", null), keySets.getString("ACCESS_TOKEN_SECRET", null)), params[0]); // the access token from step 4
                 return true;
             } catch (Exception ex) {
@@ -236,13 +240,19 @@ public class OAuthHandler {
         }
     }
 
+    /**
+     * This class extends an AsyncTask and makes sure we send the request, it also retrieves the
+     * body from the response.
+     */
     public class RequestSender extends AsyncTask<OAuthRequest, Integer, String> {
         @Override
         protected String doInBackground(OAuthRequest... params) {
             Response response;
+            //here we send the request.
             response = params[0].send();
             String body = null;
             try {
+                //here we get the String that contains the JSON file.
                 body = response.getBody();
 
             } catch (IOException e1) {
@@ -253,11 +263,17 @@ public class OAuthHandler {
         }
     }
 
+
+    /**
+     * This class extends an AsyncTask and makes sure we build a request.
+     */
     public class RequestBuilder extends AsyncTask<RequestBuilderHelper, Integer, OAuthRequest> {
         @Override
         protected OAuthRequest doInBackground(RequestBuilderHelper... params) {
             String action = params[0].getAction();
             OAuthRequest request = null;
+            //using this we can say which command we want to do and send the url, and it will build
+            // the request this way.
             if (action.equals("GET")) {
                 request = new OAuthRequest(Verb.GET, params[0].getUrl(), service);
             }

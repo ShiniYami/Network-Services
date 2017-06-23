@@ -1,7 +1,7 @@
 package com.example.william.twatter.TwitterInfo;
 
 /**
- * Created by William on 5/9/2017.
+ * This class stores the user and it's data.
  */
 
 public class User {
@@ -26,6 +26,7 @@ public class User {
         this.followed = followed;
         this.followRequestSent = followRequestSent;
     }
+
     public String getName() {
         return name;
     }

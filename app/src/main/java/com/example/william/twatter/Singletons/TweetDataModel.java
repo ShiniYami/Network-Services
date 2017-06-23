@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by William on 5/9/2017.
+ * This class is our singleton datamodel, where we store the arrayLists.
  */
 
 public class TweetDataModel {
@@ -25,11 +25,6 @@ public class TweetDataModel {
     private String mainUser;
     private String mainUserID;
     private TwatterActivity activity;
-
-
-    public TweetDataModel() {
-
-    }
 
     public static TweetDataModel getInstance() {
         return ourInstance;
@@ -47,8 +42,14 @@ public class TweetDataModel {
         return searchedUsers;
     }
 
+
+    /**
+     * This method will redirect the responseBody to the choice given.
+     * @param responseBody is the String which contains a JSON file.
+     * @param choice is the choice given, it corresponds to what kind of request we make in the
+     *               first place.
+     */
     public void loadResponse(String responseBody, int choice) {
-        Log.d("TEST311", "hi");
         if (choice == 0) {
             choice0(responseBody);
         }
@@ -66,15 +67,23 @@ public class TweetDataModel {
         }
     }
 
+    /**
+     * This method will convert the responseBody into information we need, such as the users and
+     * the tweets.
+     * @param responseBody is the String which contains a JSON file.
+     */
     private void choice0(String responseBody) {
+        //make sure the tweets are empty, because we don't want to be showing the wrong tweets.
         tweets.clear();
+
         JSONArray jsonArray = new JSONArray();
         Log.d("TEST1.1", responseBody);
         try {
+            //here we make the responseBody into a JSONObject and afterwards into a JSONArray.
             JSONObject object = new JSONObject(responseBody);
             jsonArray = object.getJSONArray("statuses");
         } catch (JSONException e) {
-
+            //if that doesn't work, we make the responseBody into a JSONArray instead.
 
             try {
                 jsonArray = new JSONArray(responseBody);
@@ -90,15 +99,21 @@ public class TweetDataModel {
 
         int x = jsonArray.length();
         Log.d("TEST5", x + "");
+        //here for every tweet in the JSONArray we add the Tweet information to the Tweets
+        // ArrayList.
         for (int tweetCount = 0; tweetCount < x; tweetCount++) {
             Log.d("TEST1", "HI");
             try {
                 JSONObject tweet = jsonArray.getJSONObject(tweetCount);
                 Log.d("TEST2", "HI");
                 String text = tweet.getString("text");
+
+                //here we get the User from the Tweet so that we can add the users to the users
+                // ArrayList.
                 JSONObject jSONUser = tweet.getJSONObject("user");
                 String url = "none";
                 try {
+                    //here we get the url from the tweet, so we can add it to the Tweet later.
                     JSONObject entities = tweet.getJSONObject("entities");
                     JSONArray urls = entities.getJSONArray("urls");
                     url = urls.getJSONObject(0).getString("url");
@@ -113,15 +128,21 @@ public class TweetDataModel {
                 profilePictureURL = profilePictureURL.replace("_normal", "");
                 String screenName = jSONUser.getString("screen_name");
                 String timeOfPost = tweet.getString("created_at");
+                //here we remove some of the String because it looks ugly.
                 timeOfPost = timeOfPost.replace("+0000", "");
+                //here we split the String so that we can change a certain part of it.
                 String[] split = timeOfPost.split(" ");
+                //here we split that String so that we can change the hours to the right GMT.
                 String[] split2 = split[3].split(":");
+                //here we add the GMT to the hours.
                 int hour = Integer.parseInt(split2[0]);
                 hour += 2;
+                //here we make sure that the hours won't excel 24 hours.
                 if (hour > 23) {
                     hour = hour - 24;
                 }
                 split2[0] = String.valueOf(hour);
+                //here we revert the split.
                 String sum = "";
                 for (int i = 0; i < split2.length; i++) {
                     if (i + 1 == split2.length) {
@@ -130,6 +151,7 @@ public class TweetDataModel {
                         sum += split2[i] + ":";
                     }
                 }
+                //here we revert the other split
                 split[3] = sum;
                 String sum2 = "";
                 for (int i = 0; i < split.length; i++) {
@@ -139,7 +161,9 @@ public class TweetDataModel {
                         sum2 += split[i] + " ";
                     }
                 }
+                //this result in the same String but with the hours changed.
                 timeOfPost = sum2;
+
                 if (authorLocation.equals("")) {
                     authorLocation = "N/A";
                 }
@@ -147,21 +171,24 @@ public class TweetDataModel {
                 if (description.equals("")) {
                     description = "N/A";
                 }
-                String tweetID = tweet.getString("id");
                 String userID = jSONUser.getString("id");
 
                 boolean followed = jSONUser.getBoolean("following");
                 boolean followRequestSent = jSONUser.getBoolean("follow_request_sent");
+                //here we create a User.
                 User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, userID, followed, followRequestSent);
+                //here we create a Tweet.
                 Tweet newTweet = new Tweet(authorName, text, user, timeOfPost, url);
                 tweets.add(newTweet);
                 int count = 0;
+                //here we check if the user does already exist in the users ArrayList.
                 for (User u : users) {
                     if (user.getScreenName().equals(u.getScreenName())) {
                         count++;
                     }
                 }
                 if (count == 0) {
+                    //here we add the user if it isn't already in there.
                     users.add(user);
 
                 }
@@ -169,11 +196,15 @@ public class TweetDataModel {
                 e.printStackTrace();
             }
         }
-
+        //here we refresh the listView so that we see the changes.
         activity.refreshListView();
 
     }
 
+    /**
+     * This method gets the screenName of the Main User.
+     * @param responseBody is the String which contains a JSON file.
+     */
     private void choice1(String responseBody) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -182,6 +213,8 @@ public class TweetDataModel {
         }
         try {
             Log.d("TEST2", "HI");
+            //here we set the MainUser so we always know who is logged in, without having to make a
+            // new request every time.
             mainUser = jsonObject.getString("screen_name");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -189,6 +222,10 @@ public class TweetDataModel {
 
     }
 
+    /**
+     * This method adds a user to the users ArrayList.
+     * @param responseBody is the String which contains a JSON file.
+     */
     private void choice2(String responseBody) {
         String ID = "";
         try {
@@ -202,12 +239,15 @@ public class TweetDataModel {
             String screenName = jsonObject.getString("screen_name");
             boolean followed = jsonObject.getBoolean("following");
             boolean followRequestSent = jsonObject.getBoolean("follow_request_sent");
-            Log.d("FOLLOW", followed + "");
-            Log.d("FOLLOWREQ", followRequestSent + "");
+
             if (screenName.equals(mainUser)) {
+                //if the mainUser is called, his ID is added as another identifier of the main user.
                 mainUserID = ID;
             }
             int count = 0;
+
+            //if the user already exists in the arraylist we update their changeable information,
+            // otherwise we add the user to the users ArrayList.
             for (User u : users) {
                 if (u.getID().equals(ID)) {
                     count++;
@@ -232,7 +272,13 @@ public class TweetDataModel {
         activity.setInfo(ID);
     }
 
+
+    /**
+     * This method will get all the users in the JSON file and puts them into the users ArrayList.
+     * @param responseBody
+     */
     private void choice4(String responseBody) {
+        //makes sure this arrayList gets cleared.
         searchedUsers.clear();
         JSONArray jsonArray = new JSONArray();
         try {
@@ -241,6 +287,8 @@ public class TweetDataModel {
             e.printStackTrace();
         }
 
+
+        //for every user in the JSONArray we get the user information, and add them to the searchedUsers and users ArrayLists.
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject object;
             try {
@@ -259,6 +307,8 @@ public class TweetDataModel {
                 int count = 0;
                 User user = new User(name, location, description, screenName, profileImageURL, ID, followed, followRequestSent);
                 searchedUsers.add(user);
+                //if the user already exists in the arraylist we update their changeable information,
+                // otherwise we add the user to the users ArrayList.
                 for (User u : users) {
                     if (u.getID().equals(ID)) {
                         count++;
@@ -280,6 +330,7 @@ public class TweetDataModel {
 
 
         }
+        //here we make sure that the activity that displays the information will get started.
         activity.startUserSearchActivity();
     }
 
