@@ -3,7 +3,7 @@ package com.example.william.twatter.TwitterInfo;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
 /**
- * Created by William on 6/15/2017.
+ * This class holds the given request token and String, this is used for the signInTask.
  */
 
 public class AccesTokenInfoHolder {

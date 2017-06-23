@@ -153,7 +153,7 @@ public class TweetDataModel {
                 boolean followed = jSONUser.getBoolean("following");
                 boolean followRequestSent = jSONUser.getBoolean("follow_request_sent");
                 User user = new User(authorName, authorLocation, description, screenName, profilePictureURL, userID, followed, followRequestSent);
-                Tweet newTweet = new Tweet(authorName, text, user, tweetID, timeOfPost, url);
+                Tweet newTweet = new Tweet(authorName, text, user, timeOfPost, url);
                 tweets.add(newTweet);
                 int count = 0;
                 for (User u : users) {

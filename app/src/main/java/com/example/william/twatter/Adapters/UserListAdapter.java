@@ -21,11 +21,12 @@ import it.sephiroth.android.library.picasso.Picasso;
 
 /**
  * Created by William on 6/19/2017.
+ * Custom adapter for the listview of users shown when searching for users
  */
 
 public class UserListAdapter extends ArrayAdapter {
     private TweetDataModel model = TweetDataModel.getInstance();
-
+    //Presets the UI items for each user in the list
     private TextView name;
     private TextView tag;
     private TextView description;
@@ -51,13 +52,14 @@ public class UserListAdapter extends ArrayAdapter {
         tag = (TextView) customView.findViewById(R.id.tv_tag);
         description = (TextView) customView.findViewById(R.id.tv_description);
         profilePic = (ImageView) customView.findViewById(R.id.iv_profilepic);
-
+        //Gets the user object for the given position in the list
         User user = model.getSearchedUsers().get(position);
-
+        //Set's user's data
         name.setText(user.getName());
         String tagString = "@"+user.getScreenName();
         tag.setText(tagString);
         description.setText(user.getDescription());
+        //Use Picasso to set the image of the user via the user's image url
         Picasso.with(getContext()).load(user.getUrl()).into(profilePic);
 
 

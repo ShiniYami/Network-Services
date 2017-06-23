@@ -23,6 +23,7 @@ import java.util.List;
 import it.sephiroth.android.library.picasso.Picasso;
 
 /**
+ * Custom adapter for the listview of a user's tweets.
  * Created by William on 5/9/2017.
  */
 
@@ -31,7 +32,7 @@ public class TweetListAdapter extends ArrayAdapter {
     private TweetDataModel model = TweetDataModel.getInstance();
 
     private ArrayList<Tweet> tweets;
-
+    //Presets all of the UI items
     private TextView name;
     private TextView text;
     private ImageView profileImageView;
@@ -43,6 +44,14 @@ public class TweetListAdapter extends ArrayAdapter {
 
     }
 
+    /**
+     * Sets values for the timeline of a user
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -65,7 +74,7 @@ public class TweetListAdapter extends ArrayAdapter {
         final User user = tweet.getUser();
 
 
-
+        //Uses Picasso to get the user's profile image
         Picasso.with(getContext()).load(user.getUrl()).into(profileImageView);
         name.setText(tweet.getAuthorName());
         text.setText(tweet.getText());
@@ -75,7 +84,7 @@ public class TweetListAdapter extends ArrayAdapter {
 
 
         time.setText(tweet.getTimeOfPost());
-        //Get's the user's information and timeline
+        //Get's the user's information and timeline when you click on the image of one of their posted tweets
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

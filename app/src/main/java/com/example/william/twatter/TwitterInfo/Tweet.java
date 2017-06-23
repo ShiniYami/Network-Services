@@ -1,23 +1,22 @@
 package com.example.william.twatter.TwitterInfo;
 
 /**
- * Created by William on 5/9/2017.
+ * This class is used to hold all of the necessary data that you get from parsing the JSON when the GET request is sent to twitter
  */
 
 public class Tweet {
     private User user;
     private String authorName = "Unknown";
     private String text = "Empty";
-    private String tweetID;
+
     private String timeOfPost;
     private String url;
 
-    public Tweet(String author, String text, User user, String tweetID, String timeOfPost, String url) {
+    public Tweet(String author, String text, User user, String timeOfPost, String url) {
         this.authorName = author;
         this.text = text+"\n";
         this.user = user;
 
-        this.tweetID = tweetID;
         this.timeOfPost = timeOfPost;
         this.url = url;
     }

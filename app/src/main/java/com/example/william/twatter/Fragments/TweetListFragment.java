@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 /**
  * Created by William on 5/9/2017.
+ * Fragment that holds the tweet timeline of the current user
  */
-
 public class TweetListFragment extends Fragment {
 
     itemClicked listener;
@@ -37,6 +37,7 @@ public class TweetListFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
+            //sets the itemClicked llistener
             listener = (itemClicked) activity;
         } catch (ClassCastException ccex) {
             throw new ClassCastException(activity + "Must be implemented");
@@ -46,8 +47,7 @@ public class TweetListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tweet_list, container);//false means it won't be attached to the rootView by itself, because android will already do that for me
-
+        View rootView = inflater.inflate(R.layout.fragment_tweet_list, container);
         lv = (ListView) rootView.findViewById(R.id.tweetList);
         button1 = (ImageView) rootView.findViewById(R.id.ImageView1);
         button2 = (ImageView) rootView.findViewById(R.id.ImageView2);
@@ -64,7 +64,8 @@ public class TweetListFragment extends Fragment {
                 model.getActivity().startDetailActivity(position);
             }
         });
-
+        //Sends the position of the button that was clicked to the TwatterActivity so that it can
+        // perform the right action.
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,13 +88,18 @@ public class TweetListFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Refreshed the view to show updated info
+     */
     public void refreshListView(){
         adapt.notifyDataSetChanged();
     }
 
-
+    /**
+     * Interface for the buttn click listener for the buttons at the bottom of the TwatterActivity
+     */
     public interface itemClicked {
-        public void click(int position, int kind, Activity activity);
+        void click(int position, int kind, Activity activity);
     }
 
 }
