@@ -20,34 +20,32 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by William on 6/7/2017.
+ * This class Handles all the AsyncTasks and OAuth related calls.
  */
 
 public class OAuthHandler {
     private static final OAuthHandler ourInstance = new OAuthHandler();
+
+    //here we build the service that enables the existence of OAuth
     private final OAuth10aService service = new ServiceBuilder()
             .apiKey("QAwA46AAA7rw1LFz8VFg1IqlN")
             .apiSecret("lQfuIvToeG2LOkEq8uzFr3ZsjHz5pHHTmLX0wFLH6aD5Y7xFK0")
             .callback("http://placeholder.com/auth/callback")
             .build(TwitterApi.instance());
-    Response response;
     private SharedPreferences keySets;
     private Activity activity;
     private TweetDataModel model = TweetDataModel.getInstance();
     private OAuth1AccessToken accessTokenFinal;
 
-
-    public OAuthHandler() {
-    }
-
     public static OAuthHandler getInstance() {
         return ourInstance;
     }
 
-    public SharedPreferences getKeySets() {
-        return keySets;
-    }
 
+    /**
+     * This method helps us start the sign in process.
+     * @return returns the request token and the authURL.
+     */
     public AccesTokenInfoHolder startOauth() {
         try {
             return new signInTask().execute().get();
@@ -59,6 +57,12 @@ public class OAuthHandler {
         return null;
     }
 
+
+    /**
+     * This method gets the accessToken from the service or the sharedPreferences.
+     * @param userVerified is the verifier we get from the webView.
+     * @return the AccesToken.
+     */
     public Boolean getAccessToken(AccesTokenInfoHolder userVerified) {
         try {
             Boolean accessToken = new oAuthAccessToken().execute(userVerified).get();
@@ -71,6 +75,12 @@ public class OAuthHandler {
         return false;
     }
 
+
+    /**
+     * This method creates the OAuthURL.
+     * @param requestToken is the given request token.
+     * @return the url in string format.
+     */
     public String createOathUrl(OAuth1RequestToken requestToken) {
         return service.getAuthorizationUrl(requestToken);
 

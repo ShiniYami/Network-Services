@@ -59,6 +59,7 @@ public class SearchActivity extends AppCompatActivity {
         String search = editTextSearch.getText().toString();
         finish();
         try {
+            //encodes the search string
             search = model.getActivity().encode(search);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

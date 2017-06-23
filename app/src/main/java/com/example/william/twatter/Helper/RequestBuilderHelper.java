@@ -1,7 +1,7 @@
 package com.example.william.twatter.Helper;
 
 /**
- * Created by William on 6/15/2017.
+ * This class holds the action of the request and the url of the request.
  */
 
 public class RequestBuilderHelper {
