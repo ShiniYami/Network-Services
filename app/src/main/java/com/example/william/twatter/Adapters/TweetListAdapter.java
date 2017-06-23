@@ -75,7 +75,7 @@ public class TweetListAdapter extends ArrayAdapter {
 
 
         time.setText(tweet.getTimeOfPost());
-
+        //Get's the user's information and timeline
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
