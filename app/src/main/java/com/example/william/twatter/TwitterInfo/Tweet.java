@@ -36,10 +36,6 @@ public class Tweet {
 
     public User getUser(){return user;}
 
-    public String getTweetID() {
-        return tweetID;
-    }
-
     public String getTimeOfPost() {
         return timeOfPost;
     }
