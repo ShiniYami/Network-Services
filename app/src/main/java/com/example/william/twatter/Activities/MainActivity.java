@@ -15,6 +15,12 @@ import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.AccesTokenInfoHolder;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
+/**
+ * This class is the actual launcher method, in here we check if the user has authorized before, if
+ * they have we continue to twatterActivity, otherwise we make them log in and authorize, this will
+ * redirect them to twatterActivity either way.
+ */
+
 public class MainActivity extends AppCompatActivity {
     private TweetDataModel model = TweetDataModel.getInstance();
     private OAuthHandler handler = OAuthHandler.getInstance();
