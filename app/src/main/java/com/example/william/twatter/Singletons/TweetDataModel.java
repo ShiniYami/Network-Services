@@ -22,7 +22,6 @@ public class TweetDataModel {
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<User> searchedUsers = new ArrayList<>();
     private ArrayList<Tweet> tweets = new ArrayList<>();
-    private OAuthHandler handler = OAuthHandler.getInstance();
     private String mainUser;
     private String mainUserID;
     private TwatterActivity activity;

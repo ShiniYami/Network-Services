@@ -11,7 +11,6 @@ import android.webkit.WebViewClient;
 
 import com.example.william.twatter.R;
 import com.example.william.twatter.Singletons.OAuthHandler;
-import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.AccesTokenInfoHolder;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
@@ -22,7 +21,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private TweetDataModel model = TweetDataModel.getInstance();
     private OAuthHandler handler = OAuthHandler.getInstance();
 
 

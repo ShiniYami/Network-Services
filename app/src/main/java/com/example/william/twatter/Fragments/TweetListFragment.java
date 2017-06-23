@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import com.example.william.twatter.Adapters.TweetListAdapter;
 import com.example.william.twatter.R;
-import com.example.william.twatter.Singletons.OAuthHandler;
 import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.Tweet;
 
@@ -27,7 +26,6 @@ public class TweetListFragment extends Fragment {
 
     itemClicked listener;
     private TweetDataModel model = TweetDataModel.getInstance();
-    private OAuthHandler handler = OAuthHandler.getInstance();
     private ListView lv;
     private TweetListAdapter adapt;
     private ImageView button1;

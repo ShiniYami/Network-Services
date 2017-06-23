@@ -40,9 +40,6 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
     private Button followButton;
     private OAuthHandler handler = OAuthHandler.getInstance();
 
-    private int deviceHeight;
-    private int deviceWidth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +47,8 @@ public class TwatterActivity extends AppCompatActivity implements TweetListFragm
         setContentView(R.layout.activity_twatter);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        deviceHeight = displayMetrics.heightPixels;
-        deviceWidth = displayMetrics.widthPixels;
+        int deviceHeight = displayMetrics.heightPixels;
+        int deviceWidth = displayMetrics.widthPixels;
         model.setActivity(this);
 
 

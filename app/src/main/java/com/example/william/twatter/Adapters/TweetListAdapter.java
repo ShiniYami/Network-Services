@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.william.twatter.R;
-import com.example.william.twatter.Singletons.OAuthHandler;
 import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.Tweet;
 import com.example.william.twatter.TwitterInfo.User;
@@ -30,10 +29,8 @@ import it.sephiroth.android.library.picasso.Picasso;
 public class TweetListAdapter extends ArrayAdapter {
 
     private TweetDataModel model = TweetDataModel.getInstance();
-    private OAuthHandler handler = OAuthHandler.getInstance();
 
     private ArrayList<Tweet> tweets;
-    private ArrayList<User> users;
 
     private TextView name;
     private TextView text;
@@ -63,7 +60,6 @@ public class TweetListAdapter extends ArrayAdapter {
 
         tweets = model.getTweets();
         Log.d("TEST1.1.1.1.1", model.getUsers().get(1).getName());
-        users = model.getUsers();
 
         final Tweet tweet = tweets.get(position);
         final User user = tweet.getUser();

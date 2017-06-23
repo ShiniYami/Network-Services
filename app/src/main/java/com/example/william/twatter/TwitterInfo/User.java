@@ -9,7 +9,6 @@ public class User {
 
     private String name;
     private String location;
-    private int age;
     private String description;
     private String url;
     private String screenName;
