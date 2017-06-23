@@ -11,6 +11,10 @@ import com.example.william.twatter.R;
 import com.example.william.twatter.Singletons.TweetDataModel;
 import com.example.william.twatter.TwitterInfo.User;
 
+/**
+ * This class displays the UserSearchActivity.
+ */
+
 public class UserSearchActivity extends AppCompatActivity {
 
     private TweetDataModel model = TweetDataModel.getInstance();
@@ -28,6 +32,9 @@ public class UserSearchActivity extends AppCompatActivity {
         adapt = new UserListAdapter(this, R.layout.user_list_item, model.getSearchedUsers());
         lv.setAdapter(adapt);
 
+
+        //this onItemClickListener makes sure that if you tap on an item that the corresponding
+        // user info and timeline are set and it closes this activity.
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
