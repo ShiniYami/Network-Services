@@ -13,7 +13,7 @@ import com.example.william.twatter.TwitterInfo.User;
 import it.sephiroth.android.library.picasso.Picasso;
 
 /**
- * Created by William on 5/9/2017.
+ * This class lets you see the detail screen.
  */
 
 public class DetailActivity extends AppCompatActivity {
